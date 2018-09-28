@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.liqingfeng.sscapp.View.Activity.LoginActivity">
+        <com.example.liqingfeng.sscapp.View.CustomView.CustomVideoView
+            android:id="@+id/vidoview"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+        </com.example.liqingfeng.sscapp.View.CustomView.CustomVideoView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include
+                android:id="@+id/login_title"
+                layout="@layout/activity_login_title">
+            </include>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/login_title"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="55dip"
+                    android:layout_height="55dip"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/ic_login_detail_cir"/>
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dip"
+                    android:gravity="center"
+                    android:text="FIREFLY FOREST"
+                    android:textColor="#ffffff"
+                    android:textSize="24sp"/>
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="SHOW YOUR IDEAS"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+                <include
+                    android:id="@+id/input_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="210dip"
+                    layout="@layout/activity_login_input">
+                </include>
+
+                <include
+                    android:id="@+id/layout_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dip"
+                    layout="@layout/activity_login_progress"
+                    android:visibility="gone">
+
+                </include>
+
+                <TextView
+                    android:id="@+id/main_btn_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/input_layout"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="15dip"
+                    android:background="@drawable/login_text_bg"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:onClick="logining"
+                    android:paddingBottom="2dip"
+                    android:paddingLeft="15dip"
+                    android:paddingRight="15dip"
+                    android:paddingTop="2dip"
+                    android:text="Login"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="44dp"
+                android:layout_marginEnd="90dp"
+                android:text="新用户注册！"
+                android:textColor="@color/white"
+                android:onClick="register"
+                android:clickable="true"/>
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/textView"
+                android:layout_marginStart="90dp"
+                android:text="无法登陆？"
+                android:textColor="@color/white"/>
+        </RelativeLayout>
+    </FrameLayout>
+</android.support.constraint.ConstraintLayout>

@@ -5,14 +5,23 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
+import com.example.liqingfeng.sscapp.Model.ResponseModel;
+import com.example.liqingfeng.sscapp.Presenter.UrlConfig;
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
 import okhttp3.FormBody;
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -26,13 +35,14 @@ public class RequestManager {
     private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");//mdiatype 这个需要和服务端保持一致
     private static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/x-markdown; charset=utf-8");//mdiatype 这个需要和服务端保持一致
     private static final String TAG = RequestManager.class.getSimpleName();
-    private static final String BASE_URL = "http://wangzhengyu.cn/api";//请求接口根地址
+    private static final String BASE_URL = UrlConfig.bnsBaseUrl;//请求接口根地址
     private static volatile RequestManager mInstance;//单利引用
     public static final int TYPE_GET = 0;//get请求
     public static final int TYPE_POST_JSON = 1;//post请求参数为json
     public static final int TYPE_POST_FORM = 2;//post请求参数为表单
     private OkHttpClient mOkHttpClient;//okHttpClient 实例
     private Handler okHttpHandler;//全局处理子线程和M主线程通信
+    public static final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();//存放cookie的地方
 
     /**
      * 初始化RequestManager
@@ -40,6 +50,18 @@ public class RequestManager {
     public RequestManager(Context context) {
         //初始化OkHttpClient
         mOkHttpClient = new OkHttpClient().newBuilder()
+                .cookieJar( new CookieJar() {
+                    @Override
+                    public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+                        cookieStore.put( url.host(), cookies );
+                    }
+
+                    @Override
+                    public List<Cookie> loadForRequest(HttpUrl url) {
+                        List<Cookie> cookies = cookieStore.get( url.host() );
+                        return cookies != null ? cookies : new ArrayList<Cookie>(  );
+                    }
+                } )
                 .connectTimeout(10, TimeUnit.SECONDS)//设置超时时间
                 .readTimeout(10, TimeUnit.SECONDS)//设置读取超时时间
                 .writeTimeout(10, TimeUnit.SECONDS)//设置写入超时时间
@@ -110,7 +132,7 @@ public class RequestManager {
                 tempParams.append(String.format("%s=%s", key, URLEncoder.encode(paramsMap.get(key), "utf-8")));
                 pos++;
             }
-            String requestUrl = String.format("%s/%s?%s", BASE_URL, actionUrl, tempParams.toString());
+            String requestUrl = String.format("%s%s?%s", BASE_URL, actionUrl, tempParams.toString());
             final Request request = addHeaders().url(requestUrl).build();
             final Call call = mOkHttpClient.newCall(request);
             call.enqueue(new Callback() {
@@ -125,7 +147,10 @@ public class RequestManager {
                     if (response.isSuccessful()) {
                         String string = response.body().string();
                         Log.e(TAG, "response ----->" + string);
-                        successCallBack((T) string, callBack);
+                        //解析数据
+                        Gson gson = new Gson();
+                        ResponseModel object = gson.fromJson(string,ResponseModel.class);
+                        successCallBack((T) object, callBack);
                     } else {
                         failedCallBack("服务器错误", callBack);
                     }
@@ -159,7 +184,7 @@ public class RequestManager {
             }
             String params = tempParams.toString();
             RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, params);
-            String requestUrl = String.format("%s/%s", BASE_URL, actionUrl);
+            String requestUrl = String.format("%s%s", BASE_URL, actionUrl);
             final Request request = addHeaders().url(requestUrl).post(body).build();
             final Call call = mOkHttpClient.newCall(request);
             call.enqueue(new Callback() {
@@ -202,7 +227,7 @@ public class RequestManager {
                 builder.add(key, paramsMap.get(key));
             }
             RequestBody formBody = builder.build();
-            String requestUrl = String.format("%s/%s", BASE_URL, actionUrl);
+            String requestUrl = String.format("%s%s", BASE_URL, actionUrl);
             final Request request = addHeaders().url(requestUrl).post(formBody).build();
             final Call call = mOkHttpClient.newCall(request);
             call.enqueue(new Callback() {
@@ -226,6 +251,45 @@ public class RequestManager {
             return call;
         } catch (Exception e) {
             Log.e(TAG, e.toString());
+        }
+        return null;
+    }
+
+    /**
+     *无参数的get请求访问
+     * @param actionUrl 请求接口地址
+     * @param callBack  请求数据的回调
+     * @param <T>       泛型数据支持
+     * @return
+     */
+    public  <T> Call requestGetWithoutParam(String actionUrl, final ReqCallBack<T> callBack) {
+        try {
+            final Request request = addHeaders().url( BASE_URL+actionUrl ).build();
+            final Call call = mOkHttpClient.newCall( request );
+            call.enqueue( new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    failedCallBack("访问失败", callBack);
+                    Log.e(TAG, e.toString());
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        String string = response.body().string();
+                        Log.e(TAG, "response ----->" + string);
+                        //解析json
+                        Gson gson = new Gson();
+                        ResponseModel object = gson.fromJson(string,ResponseModel.class);
+                        successCallBack((T) object, callBack);
+                    } else {
+                        failedCallBack("服务器错误", callBack);
+                    }
+                }
+            } );
+            return call;
+        }catch (Exception e) {
+            Log.e( TAG,e.toString() );
         }
         return null;
     }

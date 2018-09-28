@@ -8,11 +8,11 @@ public class UrlConfig {
     /**
      * 获取图片的基地址
      */
-    public static String imageBaseUrl="http://wangzhengyu.cn/avatars";
+    public static String imageBaseUrl="http://192.168.1.14/avatars";
     /**
      * 获取业务接口的基地址
      */
-    public static String bnsBaseUrl="http://wangzhengyu.cn/api";
+    public static String bnsBaseUrl="http://192.168.1.14/api";
     /**
      * 登陆接口
      */
