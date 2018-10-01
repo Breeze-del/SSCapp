@@ -1,4 +1,4 @@
-package com.example.liqingfeng.sscapp.Util.ImageUtil;
+package com.example.liqingfeng.sscapp.Presenter.Util.ImageUtil;
 
 import android.content.Context;
 import android.graphics.Bitmap;

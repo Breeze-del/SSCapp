@@ -59,7 +59,7 @@ public class WelcomeActivity extends Activity{
      *  将获取的验证码发给登陆界面
      */
     private void getHome(){
-        Intent intent = new Intent(WelcomeActivity.this,LoginActivity.class);
+        Intent intent = new Intent(WelcomeActivity.this,GuideActivity.class);
         startActivity(intent);
         finish();
     }

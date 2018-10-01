@@ -2,9 +2,11 @@ package com.example.liqingfeng.sscapp.View.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -33,8 +35,7 @@ public class GuideActivity extends Activity {
 
     private int pointDis; // 指示器的间距
 
-    public String imag_String;
-    public String verify_code;
+    public SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,19 +43,30 @@ public class GuideActivity extends Activity {
         getWindow().setFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);    //设置全屏
         this.requestWindowFeature( Window.FEATURE_NO_TITLE);//去掉标题栏
-        setContentView(R.layout.activity_welcome);
+        setContentView(R.layout.activity_guide);
+        judgeStartAccess();
+        init();
+        startAnim();
+        // 点击按钮，进入主Activity
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GuideActivity.this,LoginActivity.class);
+                startActivity(intent);
+                //进入动画
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                //退出动画
+                //overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
-        vpGuide = (ViewPager) this.findViewById(R.id.vp_guide);
-        btnStart = (Button) this.findViewById(R.id.btn_start);
-        btnStart.setVisibility(View.INVISIBLE);
-        llIndicator = (LinearLayout) this.findViewById(R.id.ll_indicator);
-        ivIndicator = (ImageView) this.findViewById(R.id.iv_indicator_selected);
+                finish(); // 销毁当前Activity
+            }
+        });
+    }
 
-        Intent intent=getIntent();
-        imag_String=intent.getStringExtra("img");
-        verify_code=intent.getStringExtra("code");
-
-        initData();
+    /**
+     * 开始pager
+     */
+    private void startAnim() {
         vpGuide.setAdapter(new MyPagerAdapter(imgs));
         // 计算两个圆点之间的距离
         // measure-->layout(确定位置)-->draw（onCreate方法执行结束后才会执行此流程）
@@ -100,24 +112,23 @@ public class GuideActivity extends Activity {
             public void onPageScrollStateChanged(int state) {
             }
         });
-        // 点击按钮，进入主Activity
-        btnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GuideActivity.this,LoginActivity.class);
-                intent.putExtra("img",imag_String);
-                intent.putExtra("code",verify_code);
-                startActivity(intent);
-                //进入动画
-                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                //退出动画
-                //overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
-                finish(); // 销毁当前Activity
-            }
-        });
     }
-    //初始化数据
+    /**
+     * 初化始控件和数据
+     */
+    private void init() {
+        vpGuide = (ViewPager) this.findViewById(R.id.vp_guide);
+        btnStart = (Button) this.findViewById(R.id.btn_start);
+        btnStart.setVisibility(View.INVISIBLE);
+        llIndicator = (LinearLayout) this.findViewById(R.id.ll_indicator);
+        ivIndicator = (ImageView) this.findViewById(R.id.iv_indicator_selected);
+
+        initData();
+    }
+
+    /**
+     * 初化始数据
+     */
     private void initData() {
         imgs = new ArrayList<ImageView>();
         for (int i = 0; i < imgIds.length; i++) {
@@ -140,6 +151,9 @@ public class GuideActivity extends Activity {
         }
     }
 
+    /**
+     * 内部类 图片加载
+     */
     class MyPagerAdapter extends PagerAdapter {
         private List<ImageView> imgs;
 
@@ -172,5 +186,25 @@ public class GuideActivity extends Activity {
             container.removeView(imgs.get(position));
         }
 
+    }
+    /**
+     * 判断是否是第一次打开app
+     * 第一次打开app会跳转到引导页
+     */
+    private void judgeStartAccess() {
+        sharedPreferences = getSharedPreferences("count",MODE_PRIVATE);
+        int count = sharedPreferences.getInt("count",0);
+        Log.d("print", String.valueOf(count));
+        //判断程序是第几次运行，如果是第一次运行则跳转到引导页面
+        if (count != 0){
+            Intent intent = new Intent( GuideActivity.this, LoginActivity.class);
+            startActivity(intent);
+            this.finish();
+        }
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        //存入数据
+        editor.putInt("count",++count);
+        //提交修改
+        editor.commit();
     }
 }

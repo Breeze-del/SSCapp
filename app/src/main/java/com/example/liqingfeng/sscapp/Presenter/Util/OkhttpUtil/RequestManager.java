@@ -1,4 +1,4 @@
-package com.example.liqingfeng.sscapp.Util.OkhttpUtil;
+package com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil;
 
 import android.content.Context;
 import android.os.Build;

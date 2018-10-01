@@ -8,11 +8,11 @@ public class UrlConfig {
     /**
      * 获取图片的基地址
      */
-    public static String imageBaseUrl="http://192.168.1.14/avatars";
+    public static String imageBaseUrl="http://acm.swust.edu.cn/avatars";
     /**
      * 获取业务接口的基地址
      */
-    public static String bnsBaseUrl="http://192.168.1.14/api";
+    public static String bnsBaseUrl="http://acm.swust.edu.cn/sports_back";
     /**
      * 登陆接口
      */

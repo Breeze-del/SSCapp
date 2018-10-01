@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 
 import android.util.Log;
@@ -28,15 +29,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.example.liqingfeng.sscapp.Presenter.BusinessManage.LoginManage;
+import com.example.liqingfeng.sscapp.Model.ResponseModel;
 import com.example.liqingfeng.sscapp.Presenter.DataConstant;
 import com.example.liqingfeng.sscapp.Presenter.ImageManage.Varify;
+import com.example.liqingfeng.sscapp.Presenter.UrlConfig;
+import com.example.liqingfeng.sscapp.Presenter.UserConstant;
 import com.example.liqingfeng.sscapp.R;
-import com.example.liqingfeng.sscapp.Util.AnimUtil.JellyInterpolator;
+import com.example.liqingfeng.sscapp.Presenter.Util.AnimUtil.JellyInterpolator;
 
+import com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil.RequestManager;
 import com.example.liqingfeng.sscapp.View.CustomView.CustomVideoView;
 
 import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -51,12 +56,12 @@ public class LoginActivity extends Activity{
     private CustomVideoView videoview;
     private ImageView verify_imageview;
     private EditText username,password,verify;
-    //登陆接口
-    private String url,url_login;
     //验证码字符串
     public String imag_String;
-    public String json;
-    private SharedPreferences sharedPreferences;
+    private double loginStatus;
+    private String code;//访问验证是否成功
+    HashMap<String, String> parema = new HashMap<>(  );// 存放用户输入的账号,密码,验证码
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -66,30 +71,7 @@ public class LoginActivity extends Activity{
         this.requestWindowFeature( Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView( R.layout.activity_login );
 
-        judgeStartAccess();
         init();
-    }
-
-    /**
-     * 判断是否是第一次打开app
-     * 第一次打开app会跳转到引导页
-     */
-    private void judgeStartAccess() {
-        sharedPreferences = getSharedPreferences("count",MODE_PRIVATE);
-        int count = sharedPreferences.getInt("count",0);
-        Log.d("print", String.valueOf(count));
-        //判断程序是第几次运行，如果是第一次运行则跳转到引导页面
-        if (count == 0){
-            Intent intent = new Intent(  );
-            intent.setClass(getApplicationContext(), WelcomeActivity.class);
-            startActivity(intent);
-            this.finish();
-        }
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        //存入数据
-        editor.putInt("count",++count);
-        //提交修改
-        editor.commit();
     }
 
     /**
@@ -167,14 +149,11 @@ public class LoginActivity extends Activity{
         }
     }
 
-    /**
-     * 开始登陆入口
-     */
-    private void loginStart() {
-        String usName,usPassword,code;
+    private  void getLoginerInformation() {
+        String usName,usPassword,varify;
         usName=username.getText().toString();
         usPassword=password.getText().toString();
-        code=verify.getText().toString();
+        varify=verify.getText().toString();
         //密码加密
         usPassword += "swust_sport";
         usPassword = android.util.Base64.encodeToString(usPassword.getBytes(),
@@ -183,10 +162,33 @@ public class LoginActivity extends Activity{
         HashMap<String, String> parema = new HashMap<>(  );
         parema.put( "usName",usName );
         parema.put( "usPassword",usPassword );
-        parema.put( "code",code );
-        LoginManage loginManage=new LoginManage();
-        double status=loginManage.resultForLogin( parema,this );
-        judgeStatus( status );
+        parema.put( "code",varify );
+    }
+    /**
+     * 开始登陆入口
+     */
+    private void loginStart() {
+        getLoginerInformation();
+        RequestManager requestManager=RequestManager.getInstance( this );
+        requestManager.requestAsyn( UrlConfig.loginUrl, RequestManager.TYPE_GET, parema, new RequestManager.ReqCallBack<ResponseModel>() {
+            @Override
+            public void onReqSuccess(ResponseModel result) {
+                UserConstant.tokenCode=result.getToken();
+                code=result.getCode();
+                if(code.equals( "success" )) {
+                    Map<String, Object> data = (Map<String, Object>) result.getData();
+                    loginStatus = (Double) data.get( "status" );
+                    judgeStatus( loginStatus );
+                } else {
+                    judgeStatus( 6.0 );
+                }
+            }
+
+            @Override
+            public void onReqFailed(String errorMsg) {
+
+            }
+        } );
     }
     /**
      * Toast提示信息
@@ -211,6 +213,8 @@ public class LoginActivity extends Activity{
 
         } else if (status == 0.0) {
             Toast.makeText( LoginActivity.this, "网络连接失败! ", Toast.LENGTH_SHORT ).show();
+        } else if (status == 6.0) {
+            Toast.makeText( LoginActivity.this, "用户登陆已过期", Toast.LENGTH_SHORT ).show();
         }
     }
 

@@ -12,4 +12,9 @@ public class UserConstant {
      * 本机用户的Token
      */
     public static String tokenCode;
+    /**
+     * 本机用户的昵称
+     */
+    public static String userNickName;
+
 }

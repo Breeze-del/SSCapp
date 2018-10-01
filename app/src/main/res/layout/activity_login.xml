@@ -55,7 +55,7 @@
                 <include
                     android:id="@+id/input_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="210dip"
+                    android:layout_height="250dip"
                     layout="@layout/activity_login_input">
                 </include>
 
@@ -85,7 +85,7 @@
                     android:paddingTop="2dip"
                     android:text="Login"
                     android:textColor="#ffffff"
-                    android:textSize="20sp" />
+                    android:textSize="22sp" />
 
             </RelativeLayout>
 

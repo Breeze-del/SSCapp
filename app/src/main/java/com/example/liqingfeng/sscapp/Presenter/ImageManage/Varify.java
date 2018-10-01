@@ -9,7 +9,7 @@ import android.util.Log;
 import com.example.liqingfeng.sscapp.Model.ResponseModel;
 import com.example.liqingfeng.sscapp.Presenter.DataConstant;
 import com.example.liqingfeng.sscapp.Presenter.UrlConfig;
-import com.example.liqingfeng.sscapp.Util.OkhttpUtil.RequestManager;
+import com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil.RequestManager;
 
 /**
  * 全局函数

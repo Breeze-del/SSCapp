@@ -1,4 +1,4 @@
-package com.example.liqingfeng.sscapp.Util.AnimUtil;
+package com.example.liqingfeng.sscapp.Presenter.Util.AnimUtil;
 
 import android.view.animation.LinearInterpolator;
 
