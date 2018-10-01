@@ -1,15 +1,20 @@
 package com.example.liqingfeng.sscapp.Presenter.Util.FileUtil;
 
 import android.content.Context;
+import android.util.Log;
+
+import com.example.liqingfeng.sscapp.Model.ResponseModel;
+import com.google.gson.Gson;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
 
 public class FileManager {
     private Context context;
-    private String filename;
+    private String fileName;
 
     /**
      * 初化始文件操作类
@@ -18,19 +23,18 @@ public class FileManager {
      */
     public FileManager(Context context, String filename) {
         this.context=context;
-        this.filename=filename;
+        this.fileName=filename;
     }
 
     /**
      * 向指定文件写入
-     * @param filename 文件名
      * @param content 写入类容
      */
-    public void writeFileData(String filename, String content){
+    public void writeFileData( String content){
 
         try {
 
-            FileOutputStream fos = context.openFileOutput(filename, MODE_PRIVATE);//获得FileOutputStream
+            FileOutputStream fos = context.openFileOutput(fileName, MODE_PRIVATE);//获得FileOutputStream
 
             //将要写入的字符串转换为byte数组
 
@@ -47,10 +51,9 @@ public class FileManager {
 
     /**
      * 向指定文件读入
-     * @param fileName 文件名
-     * @return
+     * @return  返回读取的类容
      */
-    public String readFileData(String fileName){
+    public String readFileData(){
 
         String result="";
 
@@ -71,5 +74,19 @@ public class FileManager {
             e.printStackTrace();
         }
         return  result;
+    }
+    /**
+     * 将登陆信息存进文件中
+     */
+    public void saveUserInfomation(final ResponseModel userInformation) {
+        new Thread( new Runnable() {
+            @Override
+            public void run() {
+                Gson gson = new Gson();
+                String josn=gson.toJson( userInformation );
+                writeFileData( josn );
+                Log.e("file","文件写入成功");
+            }
+        } ).start();
     }
 }

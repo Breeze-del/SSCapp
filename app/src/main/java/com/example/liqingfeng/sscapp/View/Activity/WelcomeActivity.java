@@ -43,18 +43,12 @@ public class WelcomeActivity extends Activity{
             }
             @Override
             public void onAnimationStart(Animation animation) {
-                requestImage();
+
             }
 
         });
     }
 
-    /**
-     * 访问获取到验证码
-     */
-    private void requestImage() {
-        Varify.getVarify( this );
-    }
     /**
      *  将获取的验证码发给登陆界面
      */

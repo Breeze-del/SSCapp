@@ -25,4 +25,8 @@ public class UrlConfig {
      *获取验证码接口
      */
     public static String verifyUrl="/verify/getVerify.do";
+    /**
+     * 用户信息文件存放地址
+     */
+    public static String userInformation="user.txt";
 }

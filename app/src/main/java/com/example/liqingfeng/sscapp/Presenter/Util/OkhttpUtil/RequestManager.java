@@ -6,7 +6,9 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.example.liqingfeng.sscapp.Model.ResponseModel;
+import com.example.liqingfeng.sscapp.Presenter.DataConstant;
 import com.example.liqingfeng.sscapp.Presenter.UrlConfig;
+import com.example.liqingfeng.sscapp.Presenter.UserConstant;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -43,6 +45,7 @@ public class RequestManager {
     private OkHttpClient mOkHttpClient;//okHttpClient 实例
     private Handler okHttpHandler;//全局处理子线程和M主线程通信
     public static final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();//存放cookie的地方
+    private Gson gson= DataConstant.gson;
 
     /**
      * 初始化RequestManager
@@ -97,17 +100,17 @@ public class RequestManager {
      * @param callBack 请求返回数据回调
      * @param <T> 数据泛型
      **/
-    public <T> Call requestAsyn(String actionUrl, int requestType, HashMap<String, String> paramsMap, ReqCallBack<T> callBack) {
+    public <T> Call requestAsyn(String actionUrl, int requestType, HashMap<String, String> paramsMap,boolean withToken, ReqCallBack<T> callBack) {
         Call call = null;
         switch (requestType) {
             case TYPE_GET:
-                call = requestGetByAsyn(actionUrl, paramsMap, callBack);
+                call = requestGetByAsyn(actionUrl, paramsMap,withToken, callBack);
                 break;
             case TYPE_POST_JSON:
-                call = requestPostByAsyn(actionUrl, paramsMap, callBack);
+                call = requestPostByAsyn(actionUrl, paramsMap,withToken, callBack);
                 break;
             case TYPE_POST_FORM:
-                call = requestPostByAsynWithForm(actionUrl, paramsMap, callBack);
+                call = requestPostByAsynWithForm(actionUrl, paramsMap,withToken, callBack);
                 break;
         }
         return call;
@@ -121,7 +124,7 @@ public class RequestManager {
      * @param <T> 数据泛型
      * @return
      */
-    private <T> Call requestGetByAsyn(String actionUrl, HashMap<String, String> paramsMap, final ReqCallBack<T> callBack) {
+    private <T> Call requestGetByAsyn(String actionUrl, HashMap<String, String> paramsMap, boolean withToken, final ReqCallBack<T> callBack) {
         StringBuilder tempParams = new StringBuilder();
         try {
             int pos = 0;
@@ -133,7 +136,7 @@ public class RequestManager {
                 pos++;
             }
             String requestUrl = String.format("%s%s?%s", BASE_URL, actionUrl, tempParams.toString());
-            final Request request = addHeaders().url(requestUrl).build();
+            final Request request = addHeaders(withToken).url(requestUrl).build();
             final Call call = mOkHttpClient.newCall(request);
             call.enqueue(new Callback() {
                 @Override
@@ -148,7 +151,6 @@ public class RequestManager {
                         String string = response.body().string();
                         Log.e(TAG, "response ----->" + string);
                         //解析数据
-                        Gson gson = new Gson();
                         ResponseModel object = gson.fromJson(string,ResponseModel.class);
                         successCallBack((T) object, callBack);
                     } else {
@@ -171,7 +173,7 @@ public class RequestManager {
      * @param <T> 数据泛型
      * @return
      */
-    private <T> Call requestPostByAsyn(String actionUrl, HashMap<String, String> paramsMap, final ReqCallBack<T> callBack) {
+    private <T> Call requestPostByAsyn(String actionUrl, HashMap<String, String> paramsMap,boolean withToken, final ReqCallBack<T> callBack) {
         try {
             StringBuilder tempParams = new StringBuilder();
             int pos = 0;
@@ -185,7 +187,7 @@ public class RequestManager {
             String params = tempParams.toString();
             RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, params);
             String requestUrl = String.format("%s%s", BASE_URL, actionUrl);
-            final Request request = addHeaders().url(requestUrl).post(body).build();
+            final Request request = addHeaders(withToken).url(requestUrl).post(body).build();
             final Call call = mOkHttpClient.newCall(request);
             call.enqueue(new Callback() {
                 @Override
@@ -220,7 +222,7 @@ public class RequestManager {
      * @param <T> 数据泛型
      * @return
      */
-    private <T> Call requestPostByAsynWithForm(String actionUrl, HashMap<String, String> paramsMap, final ReqCallBack<T> callBack) {
+    private <T> Call requestPostByAsynWithForm(String actionUrl, HashMap<String, String> paramsMap,boolean withToken, final ReqCallBack<T> callBack) {
         try {
             FormBody.Builder builder = new FormBody.Builder();
             for (String key : paramsMap.keySet()) {
@@ -228,7 +230,7 @@ public class RequestManager {
             }
             RequestBody formBody = builder.build();
             String requestUrl = String.format("%s%s", BASE_URL, actionUrl);
-            final Request request = addHeaders().url(requestUrl).post(formBody).build();
+            final Request request = addHeaders(withToken).url(requestUrl).post(formBody).build();
             final Call call = mOkHttpClient.newCall(request);
             call.enqueue(new Callback() {
                 @Override
@@ -262,9 +264,9 @@ public class RequestManager {
      * @param <T>       泛型数据支持
      * @return
      */
-    public  <T> Call requestGetWithoutParam(String actionUrl, final ReqCallBack<T> callBack) {
+    public  <T> Call requestGetWithoutParam(String actionUrl,boolean withToken, final ReqCallBack<T> callBack) {
         try {
-            final Request request = addHeaders().url( BASE_URL+actionUrl ).build();
+            final Request request = addHeaders(withToken).url( BASE_URL+actionUrl ).build();
             final Call call = mOkHttpClient.newCall( request );
             call.enqueue( new Callback() {
                 @Override
@@ -278,8 +280,6 @@ public class RequestManager {
                     if (response.isSuccessful()) {
                         String string = response.body().string();
                         Log.e(TAG, "response ----->" + string);
-                        //解析json
-                        Gson gson = new Gson();
                         ResponseModel object = gson.fromJson(string,ResponseModel.class);
                         successCallBack((T) object, callBack);
                     } else {
@@ -308,15 +308,19 @@ public class RequestManager {
 
     /**
      * 统一为请求添加头信息
+     * @param isLogin 是否进行的是登陆操作
      * @return
      */
-    private Request.Builder addHeaders() {
+    private Request.Builder addHeaders(boolean isLogin) {
         Request.Builder builder = new Request.Builder()
                 .addHeader("Connection", "keep-alive")
                 .addHeader("platform", "2")
                 .addHeader("phoneModel", Build.MODEL)
                 .addHeader("systemVersion", Build.VERSION.RELEASE)
                 .addHeader("appVersion", "3.2.0");
+        if(isLogin) {
+            builder.addHeader( "Authorization", UserConstant.tokenCode );
+        }
         return builder;
     }
 
