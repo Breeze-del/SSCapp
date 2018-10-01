@@ -12,7 +12,7 @@ public class UrlConfig {
     /**
      * 获取业务接口的基地址
      */
-    public static String bnsBaseUrl="http://acm.swust.edu.cn/sports_back";
+    public static String bnsBaseUrl="http://www.wangzhengyu.cn/sports_back";
     /**
      * 登陆接口
      */

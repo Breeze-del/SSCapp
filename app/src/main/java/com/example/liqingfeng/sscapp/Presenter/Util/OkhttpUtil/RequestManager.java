@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
+import com.example.liqingfeng.sscapp.Model.Param;
 import com.example.liqingfeng.sscapp.Model.ResponseModel;
 import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
 import com.example.liqingfeng.sscapp.Presenter.UrlConfig;
@@ -38,7 +39,7 @@ import okhttp3.Response;
  * 封装了universaoImageLoader 方法
  */
 public class RequestManager {
-    private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");//mdiatype 这个需要和服务端保持一致
+    private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json");//mdiatype 这个需要和服务端保持一致
     private static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/x-markdown; charset=utf-8");//mdiatype 这个需要和服务端保持一致
     private static final String TAG = RequestManager.class.getSimpleName();
     private static final String BASE_URL = UrlConfig.bnsBaseUrl;//请求接口根地址
@@ -69,7 +70,7 @@ public class RequestManager {
                         return cookies != null ? cookies : new ArrayList<Cookie>(  );
                     }
                 } )
-                .connectTimeout(250, TimeUnit.MILLISECONDS)//设置超时时间
+                .connectTimeout(10, TimeUnit.SECONDS)//设置超时时间
                 .readTimeout(10, TimeUnit.SECONDS)//设置读取超时时间
                 .writeTimeout(10, TimeUnit.SECONDS)//设置写入超时时间
                 .build();
@@ -227,17 +228,8 @@ public class RequestManager {
      */
     private <T> Call requestPostByAsyn(String actionUrl, HashMap<String, String> paramsMap,boolean withToken, final ReqCallBack<T> callBack) {
         try {
-            StringBuilder tempParams = new StringBuilder();
-            int pos = 0;
-            for (String key : paramsMap.keySet()) {
-                if (pos > 0) {
-                    tempParams.append("&");
-                }
-                tempParams.append(String.format("%s=%s", key, URLEncoder.encode(paramsMap.get(key), "utf-8")));
-                pos++;
-            }
-            String params = tempParams.toString();
-            RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, params);
+            String json = gson.toJson( paramsMap );
+            RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json);
             String requestUrl = String.format("%s%s", BASE_URL, actionUrl);
             final Request request = addHeaders(withToken).url(requestUrl).post(body).build();
             final Call call = mOkHttpClient.newCall(request);
@@ -253,7 +245,8 @@ public class RequestManager {
                     if (response.isSuccessful()) {
                         String string = response.body().string();
                         Log.e(TAG, "response ----->" + string);
-                        successCallBack((T) string, callBack);
+                        ResponseModel object = gson.fromJson(string,ResponseModel.class);
+                        successCallBack((T) object, callBack);
                     } else {
                         failedCallBack("服务器错误", callBack);
                     }

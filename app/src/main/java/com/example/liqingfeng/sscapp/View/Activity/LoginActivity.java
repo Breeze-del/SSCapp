@@ -12,12 +12,16 @@ import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -70,9 +74,6 @@ public class LoginActivity extends Activity {
      * 加载login界面所有控件
      */
     private void init() {
-        //获取验证码字符串,并且显示出来
-        getVarify();
-
         mBthLogin = (TextView) findViewById( R.id.main_btn_login );
         progress = findViewById( R.id.layout_progress );
         mInputLayout = findViewById( R.id.input_layout );
@@ -80,30 +81,14 @@ public class LoginActivity extends Activity {
         mpas = (LinearLayout) findViewById( R.id.input_layout_psw );
         mver = (LinearLayout) findViewById( R.id.input_ver );
         //三个Edittext输入框 获取输入输出
-        username = (EditText) findViewById( R.id.input_username );
-        password = (EditText) findViewById( R.id.input_password );
-        verify = (EditText) findViewById( R.id.input_verify );
+        username = (EditText) findViewById( R.id.login_username );
+        password = (EditText) findViewById( R.id.login_password );
+        verify = (EditText) findViewById( R.id.login_verify );
         verify_imageview = (ImageView)findViewById( R.id.verify_image );
+        videoview = (CustomVideoView) findViewById( R.id.videoView );
 
-        videoview = (CustomVideoView) findViewById( R.id.vidoview );
-        startAnim();
-    }
-
-    /**
-     * 登陆界面背景动画开始
-     */
-    private void startAnim() {
-        videoview.setVideoURI( Uri.parse( "android.resource://" + getPackageName() + "/" + R.raw.sport ) );
-
-        //播放
-        videoview.start();
-        //循环播放
-        videoview.setOnCompletionListener( new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                videoview.start();
-            }
-        } );
+        //获取验证码字符串,并且显示出来
+        getVarify();
 
         //焦点监听
         verify.setOnFocusChangeListener( new View.OnFocusChangeListener() {
@@ -114,6 +99,27 @@ public class LoginActivity extends Activity {
                 } else {
                     verify_imageview.setVisibility( View.INVISIBLE );
                 }
+            }
+        } );
+
+        startAnim();
+    }
+
+    /**
+     * 登陆界面背景动画开始
+     */
+    private void startAnim() {
+        videoview.setVideoURI( Uri.parse( "android.resource://" + getPackageName() + "/" + R.raw.sport ) );
+        if(videoview == null) {
+            Log.e( "video failed","播放视频出现问题" );
+        }
+        //播放
+        videoview.start();
+        //循环播放
+        videoview.setOnCompletionListener( new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                videoview.start();
             }
         } );
     }
@@ -347,7 +353,7 @@ public class LoginActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         String result = data.getExtras().getString( "result" );
-        EditText usname = findViewById( R.id.input_username );
+        EditText usname = findViewById( R.id.login_password );
         usname.setText( result );
     }
 
@@ -394,5 +400,54 @@ public class LoginActivity extends Activity {
 
             }
         } );
+    }
+
+    /**
+     * 点击空白区域隐藏键盘.
+     */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent me) {
+        if (me.getAction() == MotionEvent.ACTION_DOWN) {  //把操作放在用户点击的时候
+            View v = getCurrentFocus();      //得到当前页面的焦点,ps:有输入框的页面焦点一般会被输入框占据
+            if (isShouldHideKeyboard(v, me)) { //判断用户点击的是否是输入框以外的区域
+                hideKeyboard(v.getWindowToken());   //收起键盘
+            }
+        }
+        return super.dispatchTouchEvent(me);
+    }
+    /**
+     * 根据EditText所在坐标和用户点击的坐标相对比，来判断是否隐藏键盘，因为当用户点击EditText时则不能隐藏
+     * @param v
+     * @param event
+     * @return
+     */
+    private boolean isShouldHideKeyboard(View v, MotionEvent event) {
+        if (v != null && (v instanceof EditText)) {  //判断得到的焦点控件是否包含EditText
+            int[] l = {0, 0};
+            v.getLocationInWindow(l);
+            int left = l[0],    //得到输入框在屏幕中上下左右的位置
+                    top = l[1],
+                    bottom = top + v.getHeight(),
+                    right = left + v.getWidth();
+            if (event.getX() > left && event.getX() < right
+                    && event.getY() > top && event.getY() < bottom) {
+                // 点击位置如果是EditText的区域，忽略它，不收起键盘。
+                return false;
+            } else {
+                return true;
+            }
+        }
+        // 如果焦点不是EditText则忽略
+        return false;
+    }
+    /**
+     * 获取InputMethodManager，隐藏软键盘
+     * @param token
+     */
+    private void hideKeyboard(IBinder token) {
+        if (token != null) {
+            InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 }

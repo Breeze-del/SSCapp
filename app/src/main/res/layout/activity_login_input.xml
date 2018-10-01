@@ -21,7 +21,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
                 <EditText
-                    android:id="@+id/input_username"
+                    android:id="@+id/login_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7dip"
@@ -48,7 +48,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
                 <EditText
-                    android:id="@+id/input_password"
+                    android:id="@+id/login_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dip"
@@ -76,7 +76,7 @@
                 android:orientation="horizontal"
                 android:id="@+id/input_ver">
                 <EditText
-                    android:id="@+id/input_verify"
+                    android:id="@+id/login_verify"
                     android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dip"
