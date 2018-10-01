@@ -4,18 +4,17 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.liqingfeng.sscapp.Model.ResponseModel;
+import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
 import com.google.gson.Gson;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
 
 public class FileManager {
     private Context context;
     private String fileName;
-
     /**
      * 初化始文件操作类
      * @param context Activity上下文
@@ -25,7 +24,6 @@ public class FileManager {
         this.context=context;
         this.fileName=filename;
     }
-
     /**
      * 向指定文件写入
      * @param content 写入类容
@@ -33,11 +31,9 @@ public class FileManager {
     public void writeFileData( String content){
 
         try {
-
+            System.out.print( context.getFilesDir() );
             FileOutputStream fos = context.openFileOutput(fileName, MODE_PRIVATE);//获得FileOutputStream
-
             //将要写入的字符串转换为byte数组
-
             byte[]  bytes = content.getBytes();
 
             fos.write(bytes);//将byte数组写入文件
@@ -60,6 +56,7 @@ public class FileManager {
         try{
             FileInputStream fis =
                     context.openFileInput(fileName);
+            System.out.print( context.getFilesDir() );
 
             //获取文件长度
             int lenght = fis.available();
@@ -82,7 +79,7 @@ public class FileManager {
         new Thread( new Runnable() {
             @Override
             public void run() {
-                Gson gson = new Gson();
+                Gson gson = CheckStatuss.gson;
                 String josn=gson.toJson( userInformation );
                 writeFileData( josn );
                 Log.e("file","文件写入成功");

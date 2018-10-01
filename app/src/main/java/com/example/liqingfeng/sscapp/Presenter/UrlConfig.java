@@ -26,6 +26,10 @@ public class UrlConfig {
      */
     public static String verifyUrl="/verify/getVerify.do";
     /**
+     * 通过id查找用户
+     */
+    public static String findUserByID="/user/user.do";
+    /**
      * 用户信息文件存放地址
      */
     public static String userInformation="user.txt";

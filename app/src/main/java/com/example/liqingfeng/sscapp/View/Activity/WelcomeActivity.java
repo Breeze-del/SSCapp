@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
-import com.example.liqingfeng.sscapp.Presenter.ImageManage.Varify;
 import com.example.liqingfeng.sscapp.R;
 
 /**
@@ -50,7 +49,7 @@ public class WelcomeActivity extends Activity{
     }
 
     /**
-     *  将获取的验证码发给登陆界面
+     *  跳转到guide界面
      */
     private void getHome(){
         Intent intent = new Intent(WelcomeActivity.this,GuideActivity.class);

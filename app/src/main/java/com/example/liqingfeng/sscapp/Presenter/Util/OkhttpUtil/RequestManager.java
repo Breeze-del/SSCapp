@@ -6,16 +6,20 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.example.liqingfeng.sscapp.Model.ResponseModel;
-import com.example.liqingfeng.sscapp.Presenter.DataConstant;
+import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
 import com.example.liqingfeng.sscapp.Presenter.UrlConfig;
 import com.example.liqingfeng.sscapp.Presenter.UserConstant;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -45,7 +49,7 @@ public class RequestManager {
     private OkHttpClient mOkHttpClient;//okHttpClient 实例
     private Handler okHttpHandler;//全局处理子线程和M主线程通信
     public static final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();//存放cookie的地方
-    private Gson gson= DataConstant.gson;
+    private Gson gson= CheckStatuss.gson;
 
     /**
      * 初始化RequestManager
@@ -65,7 +69,7 @@ public class RequestManager {
                         return cookies != null ? cookies : new ArrayList<Cookie>(  );
                     }
                 } )
-                .connectTimeout(10, TimeUnit.SECONDS)//设置超时时间
+                .connectTimeout(250, TimeUnit.MILLISECONDS)//设置超时时间
                 .readTimeout(10, TimeUnit.SECONDS)//设置读取超时时间
                 .writeTimeout(10, TimeUnit.SECONDS)//设置写入超时时间
                 .build();
@@ -116,6 +120,54 @@ public class RequestManager {
         return call;
     }
 
+    /**
+     * 同步get访问
+     *
+     * @param actionUrl 接口地址
+     * @param paramsMap 参数信息
+     * @param withToken 是否带Token
+     * @return 返回信息
+     */
+    public ResponseModel requestGetBySyn(String actionUrl, HashMap<String, String> paramsMap, boolean withToken) {
+        StringBuilder tempParams = new StringBuilder();
+        int pos = 0;
+        for (String key : paramsMap.keySet()) {
+            if (pos > 0) {
+                tempParams.append( "&" );
+            }
+            try {
+                tempParams.append( String.format( "%s=%s", key, URLEncoder.encode( paramsMap.get( key ), "utf-8" ) ) );
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            pos++;
+        }
+        String requestUrl = String.format( "%s%s?%s", BASE_URL, actionUrl, tempParams.toString() );
+        final Request request = addHeaders( withToken ).url( requestUrl ).build();
+        final Call call = mOkHttpClient.newCall( request );
+        FutureTask<ResponseModel> futureTask = new FutureTask<>( new Callable<ResponseModel>() {
+            @Override
+            public ResponseModel call() throws Exception {
+                try {
+                    String response = call.execute().body().string();
+                    return gson.fromJson( response, ResponseModel.class );
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+        } );
+        new Thread( futureTask ).start();
+        try {
+            return futureTask.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     /**
      * okHttp get异步请求
      * @param actionUrl 接口地址

@@ -9,13 +9,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -27,19 +24,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+import com.example.liqingfeng.sscapp.Model.Param;
 import com.example.liqingfeng.sscapp.Model.ResponseModel;
+import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
 import com.example.liqingfeng.sscapp.Presenter.ImageManage.Varify;
 import com.example.liqingfeng.sscapp.Presenter.UrlConfig;
 import com.example.liqingfeng.sscapp.Presenter.UserConstant;
-import com.example.liqingfeng.sscapp.Presenter.Util.FileUtil.FileManager;
-import com.example.liqingfeng.sscapp.R;
 import com.example.liqingfeng.sscapp.Presenter.Util.AnimUtil.JellyInterpolator;
-
+import com.example.liqingfeng.sscapp.Presenter.Util.FileUtil.FileManager;
 import com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil.RequestManager;
+import com.example.liqingfeng.sscapp.R;
 import com.example.liqingfeng.sscapp.View.CustomView.CustomVideoView;
 
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -59,7 +55,7 @@ public class LoginActivity extends Activity {
     public String imag_String = "";
     private double loginStatus;
     private String code;//访问验证是否成功
-    HashMap<String, String> parema = new HashMap<>();// 存放用户输入的账号,密码,验证码
+    Param parema = new Param();// 存放用户输入的账号,密码,验证码
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -150,9 +146,9 @@ public class LoginActivity extends Activity {
         usPassword = android.util.Base64.encodeToString( usPassword.getBytes(),
                 android.util.Base64.DEFAULT );
         usPassword = usPassword.replaceAll( "[\\s*\t\n\r]", "" );
-        parema.put( "usName", usName );
-        parema.put( "usPassword", usPassword );
-        parema.put( "code", varify );
+        parema.append( "usName", usName );
+        parema.append( "usPassword", usPassword );
+        parema.append( "code", varify );
     }
 
     /**
@@ -161,7 +157,7 @@ public class LoginActivity extends Activity {
     private void loginStart() {
         getLoginerInformation();
         RequestManager requestManager = RequestManager.getInstance( this );
-        requestManager.requestAsyn( UrlConfig.loginUrl, RequestManager.TYPE_GET, parema, false, new RequestManager.ReqCallBack<ResponseModel>() {
+        requestManager.requestAsyn( UrlConfig.loginUrl, RequestManager.TYPE_GET, parema.end(), false, new RequestManager.ReqCallBack<ResponseModel>() {
             @Override
             public void onReqSuccess(ResponseModel result) {
                 code = result.getCode();
@@ -178,7 +174,6 @@ public class LoginActivity extends Activity {
                     judgeStatus( 6.0 );
                 }
             }
-
             @Override
             public void onReqFailed(String errorMsg) {
 
@@ -299,8 +294,6 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onAnimationEnd(Animator animator) {
-
-                Toast.makeText( LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT ).show();
                 Intent intent = new Intent( LoginActivity.this, RegisterActivity.class );
                 onStop();
                 startActivity( intent );

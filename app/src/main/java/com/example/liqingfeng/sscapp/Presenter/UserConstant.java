@@ -16,5 +16,8 @@ public class UserConstant {
      * 本机用户的昵称
      */
     public static String userNickName;
-
+    /**
+     * 本机用户ID
+     */
+    public static int uesrID;
 }

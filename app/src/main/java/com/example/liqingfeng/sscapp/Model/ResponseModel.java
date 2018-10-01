@@ -1,5 +1,7 @@
 package com.example.liqingfeng.sscapp.Model;
 
+import java.util.Map;
+
 /**
  * 实体类 返回状态解析
  */
@@ -29,6 +31,33 @@ public class ResponseModel {
      */
     private int total;
 
+    public Object getFromData(String key) {
+        Map<String,Object> nowData =(Map<String, Object>) data;
+        if (data == null) {
+            return "data undefined";
+        }
+        int start = 0, end = 0;
+        while (true) {
+            end = key.indexOf(".", start);
+            if (end != -1) {//end of the key
+                String name = key.substring(start,end);
+                nowData = (Map<String,Object>)nowData.get(name);
+                if (nowData == null) {
+                    return "data undefined";
+                }
+                start = end + 1;
+            } else {
+                String name = key.substring(start);
+                Object result = nowData.get(name);
+                if (result == null) {
+                    return "data undefined";
+                } else {
+                    return result;
+                }
+            }
+        }
+
+    }
     public static String getSUCCESS() {
         return SUCCESS;
     }

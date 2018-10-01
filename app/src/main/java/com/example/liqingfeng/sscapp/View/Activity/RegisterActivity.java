@@ -5,12 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.TextView;
 
-import com.example.liqingfeng.sscapp.Model.ResponseModel;
-import com.example.liqingfeng.sscapp.Presenter.DataConstant;
 import com.example.liqingfeng.sscapp.Presenter.UrlConfig;
 import com.example.liqingfeng.sscapp.Presenter.Util.FileUtil.FileManager;
 import com.example.liqingfeng.sscapp.R;
-import com.google.gson.Gson;
 
 public class RegisterActivity extends Activity {
     @Override
@@ -21,8 +18,6 @@ public class RegisterActivity extends Activity {
         FileManager fileManager= new FileManager( this, UrlConfig.userInformation );
         String content;
         content=fileManager.readFileData();
-        Gson gson=DataConstant.gson;
-        ResponseModel responseModel=gson.fromJson( content,ResponseModel.class );
-        textView.setText( responseModel.getToken() );
+        textView.setText( content );
     }
 }
