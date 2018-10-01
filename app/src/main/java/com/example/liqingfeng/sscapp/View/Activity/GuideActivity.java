@@ -49,9 +49,6 @@ public class GuideActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
-        getWindow().setFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN );    //设置全屏
-        this.requestWindowFeature( Window.FEATURE_NO_TITLE );//去掉标题栏
         setContentView( R.layout.activity_guide );
         judgeStartAccess();
         init();
@@ -170,6 +167,7 @@ public class GuideActivity extends Activity {
         //用户信息 还未存入文件
         if (userImf == null || userImf.equals( "" )) {
             Intent intent = new Intent( GuideActivity.this, LoginActivity.class );
+            startActivity( intent );
         } else {
             ResponseModel responseModel = CheckStatuss.gson.fromJson( userImf, ResponseModel.class );
             UserConstant.tokenCode = responseModel.getToken();
@@ -208,16 +206,15 @@ public class GuideActivity extends Activity {
         if (count != 0) {
             judgeToken();
             this.finish();
-        } else {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            //存入数据
-            if (count == 0) {
-                count = 1;
-            }
-            editor.putInt( "count", count );
-            //提交修改
-            editor.commit();
         }
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        //存入数据
+        if (count == 0) {
+            count = 1;
+        }
+        editor.putInt( "count", count );
+        // /提交修改
+        editor.commit();
     }
 
     /**

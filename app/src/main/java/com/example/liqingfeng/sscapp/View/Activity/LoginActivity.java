@@ -61,9 +61,6 @@ public class LoginActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
 
-        getWindow().setFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN );    //设置全屏
-        this.requestWindowFeature( Window.FEATURE_NO_TITLE );//去掉标题栏
         setContentView( R.layout.activity_login );
 
         init();
@@ -86,6 +83,7 @@ public class LoginActivity extends Activity {
         username = (EditText) findViewById( R.id.input_username );
         password = (EditText) findViewById( R.id.input_password );
         verify = (EditText) findViewById( R.id.input_verify );
+        verify_imageview = (ImageView)findViewById( R.id.verify_image );
 
         videoview = (CustomVideoView) findViewById( R.id.vidoview );
         startAnim();
@@ -294,7 +292,7 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onAnimationEnd(Animator animator) {
-                Intent intent = new Intent( LoginActivity.this, RegisterActivity.class );
+                Intent intent = new Intent( LoginActivity.this, MainActivity.class );
                 onStop();
                 startActivity( intent );
             }
@@ -358,7 +356,6 @@ public class LoginActivity extends Activity {
      */
     private void drawverify(String varifyString) {
         Bitmap bitmap = Varify.stringToBitmap( varifyString );
-        verify_imageview = findViewById( R.id.verify_image );
         verify_imageview.setImageBitmap( bitmap );
     }
 

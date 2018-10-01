@@ -54,9 +54,7 @@ public class FileManager {
         String result="";
 
         try{
-            FileInputStream fis =
-                    context.openFileInput(fileName);
-            System.out.print( context.getFilesDir() );
+            FileInputStream fis = context.openFileInput(fileName);
 
             //获取文件长度
             int lenght = fis.available();

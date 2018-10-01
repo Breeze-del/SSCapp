@@ -7,5 +7,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <string name="register_to_login">I already have an account. I will log in directly.</string>
     <string name="login_symbol">Sign up</string>
+    <string name="register_name">Registered account！</string>
 </resources>
