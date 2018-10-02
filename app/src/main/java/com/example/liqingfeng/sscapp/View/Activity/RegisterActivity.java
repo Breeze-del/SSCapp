@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ public class RegisterActivity extends Activity {
     private EditText userName;
     private EditText userPassword1;
     private EditText userPassword2;
+    private Button   backTologin;
     //两次密码
     private String passWord1,passWord2;
 
@@ -84,7 +86,7 @@ public class RegisterActivity extends Activity {
         RequestManager requestManager = RequestManager.getInstance( this );
         requestManager.requestAsyn( UrlConfig.registerUrl,RequestManager.TYPE_POST_JSON,
                 new Param().append( "usName",UserConstant.userName ).
-                        append( "usNickname",UserConstant.userNickName ).append( "userPassword",password ).end(),false,
+                        append( "usNickname",UserConstant.userNickName ).append( "usPassword",password ).end(),false,
                 new RequestManager.ReqCallBack<ResponseModel>() {
                     @Override
                     public void onReqSuccess(ResponseModel result) {
@@ -111,7 +113,7 @@ public class RegisterActivity extends Activity {
     @Override
     public void onBackPressed() {
         Intent intent=new Intent();
-        intent.putExtra("result",passWord1);
+        intent.putExtra("result",passWord2);
         this.setResult(1, intent);
         this.finish();
     }
@@ -122,10 +124,8 @@ public class RegisterActivity extends Activity {
      */
     public void backTologin(View view)
     {
-        Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
-        startActivity(intent);
-        //简单跳转动画
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        passWord2="";
+        onBackPressed();
     }
     /**
      * 点击空白区域隐藏键盘.
@@ -142,7 +142,6 @@ public class RegisterActivity extends Activity {
     }
     /**
      * 根据EditText所在坐标和用户点击的坐标相对比，来判断是否隐藏键盘，因为当用户点击EditText时则不能隐藏
-     *
      * @param v
      * @param event
      * @return
@@ -176,5 +175,4 @@ public class RegisterActivity extends Activity {
             im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
-
 }

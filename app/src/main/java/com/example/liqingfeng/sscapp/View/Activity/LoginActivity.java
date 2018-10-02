@@ -353,8 +353,8 @@ public class LoginActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         String result = data.getExtras().getString( "result" );
-        EditText usname = findViewById( R.id.login_password );
-        usname.setText( result );
+        password.setText( result );
+        username.setText( UserConstant.userName );
     }
 
     /**

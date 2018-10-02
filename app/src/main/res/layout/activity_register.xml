@@ -2,46 +2,41 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
-        android:id="@+id/regiester_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" "
-            android:textColor="@color/black"
-            android:drawableLeft="@mipmap/ic_back_black"
-            android:textSize="20dp"
-            android:onClick="backTologin"
-            android:clickable="true"/>
-    </LinearLayout>
-
     <ScrollView
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true">
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="56dp"
-        android:paddingLeft="24dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="12dp"
         android:paddingRight="24dp">
+
+        <TextView
+            android:id="@+id/register_back_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:drawableLeft="@mipmap/ic_back_black"
+            android:onClick="backTologin"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
 
         <com.example.liqingfeng.sscapp.View.CustomView.CircleImageView
             android:src="@mipmap/ic_default_image"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             android:layout_marginBottom="24dp"
+            android:layout_marginLeft="12dp"
             android:layout_gravity="center_horizontal" />
 
         <!--  Name Label -->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
             <EditText android:id="@+id/register_nickname"
@@ -55,6 +50,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
             <EditText android:id="@+id/register_name"
@@ -68,6 +64,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
             <EditText android:id="@+id/register_password1"
@@ -81,6 +78,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
             <EditText android:id="@+id/register_password2"
@@ -95,20 +93,24 @@
             android:id="@+id/btn_signup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
             android:text="@string/register_name"
-            android:onClick="registerStart"/>
+            android:onClick="registerStart"
+            android:background="@drawable/button_select"/>
 
-        <TextView android:id="@+id/link_login"
+        <TextView
+            android:id="@+id/link_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
             android:layout_marginBottom="24dp"
             android:text="@string/register_to_login"
             android:gravity="center"
             android:textSize="16dip"/>
 
     </LinearLayout>
-</ScrollView>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>
