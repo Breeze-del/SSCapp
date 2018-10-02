@@ -5,33 +5,33 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_sportslevel"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:title="@string/get_more_about_member" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_sportsgrade"
+            android:icon="@mipmap/menu_item_wallet"
+            android:title="@string/my_grade" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_sportsphoto"
+            android:icon="@mipmap/menu_item_photo"
+            android:title="@string/my_photo" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_sportsfeedback"
+            android:icon="@mipmap/menu_item_feedback"
+            android:title="@string/my_feedback" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/exercison">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="@string/share" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_aboutus"
+                android:icon="@mipmap/menu_item_aboutus"
+                android:title="@string/aboutus"/>
         </menu>
     </item>
 

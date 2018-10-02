@@ -2,12 +2,28 @@
     <string name="app_name">SSCApp</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">用户昵称</string>
+    <string name="nav_header_subtitle">用户邮箱地址或者其他</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
     <string name="register_to_login">I already have an account. I will log in directly.</string>
     <string name="login_symbol">Sign up</string>
     <string name="register_name">Registered account！</string>
+
+    <string name="camera">Camera</string>
+    <string name="message">消息</string>
+    <string name="setting">设置</string>
+    <string name="back">退出</string>
+    <string name="my_feedback">提交反馈</string>
+    <string name="my_photo">我的运动相册</string>
+    <string name="aboutus">关于我们</string>
+    <string name="my_grade">我的积分</string>
+    <string name="add">添加</string>
+    <string name="more">更多</string>
+    <string name="get_more_about_member">我的运动等级</string>
+    <string name="user_name">王征宇</string>
+    <string name="email">这是我的邮箱，欢饮搞基</string>
+    <string name="exercison">more confident</string>
+    <string name="share">分享动态</string>
 </resources>
