@@ -1,4 +1,6 @@
-package com.example.liqingfeng.sscapp.Presenter;
+package com.example.liqingfeng.sscapp.Model;
+
+import com.example.liqingfeng.sscapp.Presenter.Util.ViewUtil.ScreenUtils;
 
 /**
  * 记录所有的接口的地址
@@ -8,11 +10,19 @@ public class UrlConfig {
     /**
      * 获取图片的基地址
      */
-    public static String imageBaseUrl="http://acm.swust.edu.cn/avatars";
+    public static String imageBaseUrl="http://wangzhengyu.cn/avatars";
     /**
      * 获取业务接口的基地址
      */
-    public static String bnsBaseUrl="http://www.wangzhengyu.cn/sports_back";
+    public static String bnsBaseUrl="http://wangzhengyu.cn/sports_back";
+    /**
+     * 运动模块接口
+     */
+    public static String SpmodleUrl="/sports/sports.do";
+    /**
+     * 运动房间接口
+     */
+    public static String SproomUrl="/room/rooms.do";
     /**
      * 登陆接口
      */

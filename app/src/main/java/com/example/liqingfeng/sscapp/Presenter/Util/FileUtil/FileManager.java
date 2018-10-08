@@ -3,7 +3,7 @@ package com.example.liqingfeng.sscapp.Presenter.Util.FileUtil;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.liqingfeng.sscapp.Model.ResponseModel;
+import com.example.liqingfeng.sscapp.Model.Entity.ResponseModel;
 import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
 import com.google.gson.Gson;
 

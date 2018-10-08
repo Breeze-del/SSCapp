@@ -18,8 +18,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -28,18 +26,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.liqingfeng.sscapp.Model.Param;
-import com.example.liqingfeng.sscapp.Model.ResponseModel;
+import com.example.liqingfeng.sscapp.Model.Entity.Param;
+import com.example.liqingfeng.sscapp.Model.Entity.ResponseModel;
 import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
 import com.example.liqingfeng.sscapp.Presenter.ImageManage.Varify;
-import com.example.liqingfeng.sscapp.Presenter.UrlConfig;
-import com.example.liqingfeng.sscapp.Presenter.UserConstant;
+import com.example.liqingfeng.sscapp.Model.UrlConfig;
+import com.example.liqingfeng.sscapp.Model.UserConstant;
 import com.example.liqingfeng.sscapp.Presenter.Util.AnimUtil.JellyInterpolator;
 import com.example.liqingfeng.sscapp.Presenter.Util.FileUtil.FileManager;
+import com.example.liqingfeng.sscapp.Presenter.Util.ImageUtil.ImageUtil;
 import com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil.RequestManager;
 import com.example.liqingfeng.sscapp.R;
 import com.example.liqingfeng.sscapp.View.CustomView.CustomVideoView;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -293,7 +293,6 @@ public class LoginActivity extends Activity {
         animator3.addListener( new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
-
             }
 
             @Override

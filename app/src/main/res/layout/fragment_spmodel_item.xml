@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="3dp"
+        android:baselineAligned="false">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/sports_flt"
+        android:background="@drawable/bg_basketball"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/stablish_bt"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="70dp"
+            android:background="@drawable/fragment_spmdel_button"
+            android:focusable="false"
+            android:text="创建"
+            android:visibility="invisible" />
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginLeft="220dp"
+            android:text="加入"
+            android:id="@+id/join_bt"
+            android:focusable="false"
+            android:visibility="invisible"
+            android:background="@drawable/fragment_spmdel_button"/>
+
+    </FrameLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

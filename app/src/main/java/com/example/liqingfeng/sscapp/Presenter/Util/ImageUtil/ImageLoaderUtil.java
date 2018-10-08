@@ -1,10 +1,14 @@
 package com.example.liqingfeng.sscapp.Presenter.Util.ImageUtil;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.widget.ImageView;
 
+import com.example.liqingfeng.sscapp.R;
+import com.example.liqingfeng.sscapp.View.Activity.MainActivity;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -30,7 +34,6 @@ public class ImageLoaderUtil {
 
     private static volatile ImageLoaderUtil mInstance = null;
     private static ImageLoader mLoader = null;
-
     public static ImageLoaderUtil getInstance(Context context){
         if(mInstance == null){
             synchronized (ImageLoaderUtil.class){
@@ -101,8 +104,30 @@ public class ImageLoaderUtil {
         }
     }
 
+    /**
+     * 异步加载图片并显示
+     * @param imageView
+     * @param path
+     */
     public void displayImage(ImageView imageView, String path) {
         displayImage(imageView, path, null);
+    }
+
+    public Bitmap loadImageBySyn(String url) {
+        if(mLoader!=null) {
+            return mLoader.loadImageSync( url );
+        }
+        return null;
+    }
+
+    /**
+     * 异步加载图片
+     * @param path
+     */
+    public void loadImage(String path) {
+        if (mLoader!=null) {
+            mLoader.loadImage( path,null );
+        }
     }
     /**
      * 清除缓存

@@ -1,13 +1,9 @@
 package com.example.liqingfeng.sscapp.Presenter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.widget.Toast;
 
-import com.example.liqingfeng.sscapp.Model.ResponseModel;
-import com.example.liqingfeng.sscapp.View.Activity.GuideActivity;
-import com.example.liqingfeng.sscapp.View.Activity.LoginActivity;
-import com.example.liqingfeng.sscapp.View.Activity.MainActivity;
+import com.example.liqingfeng.sscapp.Model.Entity.ResponseModel;
 import com.google.gson.Gson;
 
 /**

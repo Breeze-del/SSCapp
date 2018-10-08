@@ -1,5 +1,9 @@
 package com.example.liqingfeng.sscapp.View.Activity;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,8 +16,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.example.liqingfeng.sscapp.Model.Entity.ResponseModel;
+import com.example.liqingfeng.sscapp.Model.UrlConfig;
+import com.example.liqingfeng.sscapp.Model.UserConstant;
+import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
+import com.example.liqingfeng.sscapp.Presenter.Util.ImageUtil.ImageUtil;
+import com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil.RequestManager;
 import com.example.liqingfeng.sscapp.R;
+import com.example.liqingfeng.sscapp.View.Fragment.SpModelFragment;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * App核心主界面
@@ -25,10 +40,12 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionButton fab; //界面底部悬浮按钮
     private DrawerLayout drawer;      //滑动切换导航栏和content
     private NavigationView navigationView;//导航栏
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
+        prepareForSpmodelFragment();
         init();
     }
 
@@ -130,5 +147,44 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById( R.id.drawer_layout );
         drawer.closeDrawer( GravityCompat.START );
         return true;
+    }
+
+    /**
+     * 打开Fragment的函数
+     */
+    private void addFragment(Fragment fragment) {
+        //添加Fragment
+        FragmentManager manager=getFragmentManager();
+        //获得Fragment的事务对象并且开启事务
+        FragmentTransaction transaction=manager.beginTransaction();
+        //调用Fragment中相应的添加Fragment的方法
+        transaction.add(R.id.main_content,fragment);
+        //提交事务
+        transaction.commit();
+    }
+
+    private void prepareForSpmodelFragment() {
+        RequestManager requestManager =RequestManager.getInstance( this );
+        requestManager.requestGetWithoutParam( UrlConfig.SpmodleUrl, true,
+                new RequestManager.ReqCallBack<ResponseModel>() {
+                    @Override
+                    public void onReqSuccess(ResponseModel result) {
+                        if(CheckStatuss.CheckStatus( result,getApplicationContext() )==1) {
+                            UserConstant.list_sport=(List<Map<String,String>>) result.getData();
+                            ImageUtil.Image_down(UserConstant.list_sport);
+                            addFragment(new SpModelFragment());
+                        } else if (CheckStatuss.CheckStatus( result,getApplicationContext() )==2) {
+                            Toast.makeText( getApplicationContext(),"网络出现错误",Toast.LENGTH_SHORT ).show();
+                        } else {
+                            Intent intent = new Intent( getApplicationContext(), LoginActivity.class );
+                            startActivity( intent );
+                        }
+                    }
+
+                    @Override
+                    public void onReqFailed(String errorMsg) {
+
+                    }
+                } );
     }
 }

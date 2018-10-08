@@ -10,8 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,11 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.example.liqingfeng.sscapp.Model.Param;
-import com.example.liqingfeng.sscapp.Model.ResponseModel;
+import com.example.liqingfeng.sscapp.Model.Entity.Param;
+import com.example.liqingfeng.sscapp.Model.Entity.ResponseModel;
 import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
-import com.example.liqingfeng.sscapp.Presenter.UrlConfig;
-import com.example.liqingfeng.sscapp.Presenter.UserConstant;
+import com.example.liqingfeng.sscapp.Model.UrlConfig;
+import com.example.liqingfeng.sscapp.Model.UserConstant;
 import com.example.liqingfeng.sscapp.Presenter.Util.ConvertUtil.DataConvertUtil;
 import com.example.liqingfeng.sscapp.Presenter.Util.FileUtil.FileManager;
 import com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil.RequestManager;
@@ -170,7 +168,6 @@ public class GuideActivity extends Activity {
             startActivity( intent );
         } else {
             ResponseModel responseModel = CheckStatuss.gson.fromJson( userImf, ResponseModel.class );
-            UserConstant.tokenCode = responseModel.getToken();
             UserConstant.uesrID = DataConvertUtil.toInt( responseModel.getFromData( "id" ) );
             //检测Token是否失效
             RequestManager requestManager = RequestManager.getInstance( this );
@@ -180,6 +177,7 @@ public class GuideActivity extends Activity {
             if(  CheckStatuss.CheckStatus( responseModel1,this ) == 1) {
                 String status = responseModel1.getFromData( "usStatus" ) + "";
                 if (status.equals( "1.0" )) {
+                    UserConstant.tokenCode = responseModel.getToken();
                     Intent intent = new Intent( GuideActivity.this, MainActivity.class );
                     startActivity( intent );
                 } else {

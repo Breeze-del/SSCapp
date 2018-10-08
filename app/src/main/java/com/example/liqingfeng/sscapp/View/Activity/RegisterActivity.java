@@ -8,20 +8,16 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.liqingfeng.sscapp.Model.Param;
-import com.example.liqingfeng.sscapp.Model.ResponseModel;
+import com.example.liqingfeng.sscapp.Model.Entity.Param;
+import com.example.liqingfeng.sscapp.Model.Entity.ResponseModel;
 import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
-import com.example.liqingfeng.sscapp.Presenter.UrlConfig;
-import com.example.liqingfeng.sscapp.Presenter.UserConstant;
-import com.example.liqingfeng.sscapp.Presenter.Util.FileUtil.FileManager;
+import com.example.liqingfeng.sscapp.Model.UrlConfig;
+import com.example.liqingfeng.sscapp.Model.UserConstant;
 import com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil.RequestManager;
 import com.example.liqingfeng.sscapp.R;
 

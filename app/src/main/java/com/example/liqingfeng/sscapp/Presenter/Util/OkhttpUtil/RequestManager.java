@@ -5,11 +5,10 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
-import com.example.liqingfeng.sscapp.Model.Param;
-import com.example.liqingfeng.sscapp.Model.ResponseModel;
+import com.example.liqingfeng.sscapp.Model.Entity.ResponseModel;
 import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
-import com.example.liqingfeng.sscapp.Presenter.UrlConfig;
-import com.example.liqingfeng.sscapp.Presenter.UserConstant;
+import com.example.liqingfeng.sscapp.Model.UrlConfig;
+import com.example.liqingfeng.sscapp.Model.UserConstant;
 import com.google.gson.Gson;
 
 import java.io.IOException;

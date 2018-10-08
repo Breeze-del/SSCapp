@@ -1,4 +1,4 @@
-package com.example.liqingfeng.sscapp.Model;
+package com.example.liqingfeng.sscapp.Model.Entity;
 
 import java.util.HashMap;
 
