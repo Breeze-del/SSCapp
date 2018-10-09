@@ -15,8 +15,8 @@ public class UserConstant {
     /**
      * 本机用户的Token
      */
-    public static String tokenCode="eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3YW5nIiwiYXVkIjoid2Fu" +
-            "ZyIsImV4cCI6MTUzODU1MTU1MSwidXNlcklkIjoxLCJpYXQiOjE1Mzg0NjUxNTEsInJvbGVJZCI6MX0.9H2ZLDpd_IWdyhlLFXL-JWeFaMqCuj4TYWBYikWRs_E";
+    public static String tokenCode="eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3YW5nIiwiYXVkIjoid2FuZyIsImV4cCI6MTUzOTE1MDg3NCwidXNlcklkIjoxL" +
+            "CJpYXQiOjE1MzkwNjQ0NzQsInJvbGVJZCI6MX0.mPxEWg8X3uDbQJiKHK3CmzpccR6qQ3eNeC1plE6Wuk8";
     /**
      * 本机用户的昵称
      */

@@ -133,6 +133,11 @@ public class SpModelFragment extends Fragment implements SpModelAdapter.InnerIte
                                 if(CheckStatuss.CheckStatus( result,getActivity() )==1) {
                                     UserConstant.list_sport=(List<Map<String,String>>) result.getData();
                                     ImageUtil.Image_down(UserConstant.list_sport);
+                                    sportsAdapter.postion=-1;
+                                    sportsAdapter.notifyDataSetChanged();
+//                                    sportsAdapter = new SpModelAdapter(getActivity());
+//                                    listView.setAdapter(sportsAdapter);
+                                      handler.sendEmptyMessage(SUCCESS);
                                 } else if (CheckStatuss.CheckStatus( result,getActivity() )==2) {
                                     Toast.makeText( getActivity(),"网络出现错误",Toast.LENGTH_SHORT ).show();
                                 } else {
@@ -151,19 +156,6 @@ public class SpModelFragment extends Fragment implements SpModelAdapter.InnerIte
                 },1000 );
             }
         } );
-    }
-    @Override
-    public void itemClick(View v) {
-        int pos;
-        pos=(Integer)v.getTag();
-        switch (v.getId()) {
-            case R.id.join_bt:
-                UserConstant.room_Sport_name=UserConstant.list_sport.get( pos ).get( "spName" );
-                String url=UrlConfig.bnsBaseUrl+UrlConfig.SproomUrl+"?roSportname="+UserConstant.room_Sport_name;
-                UserConstant.room_image_path=UserConstant.list_sport.get( pos ).get( "spRoimg" );
-                requestRooms( url );
-            case R.id.stablish_bt:
-        }
     }
     private void requestRooms(String url) {
         RequestManager requestManager =RequestManager.getInstance( getActivity() );
@@ -191,5 +183,19 @@ public class SpModelFragment extends Fragment implements SpModelAdapter.InnerIte
 
             }
         } );
+    }
+
+    @Override
+    public void itemClick(View v) {
+        int pos;
+        pos=(Integer)v.getTag();
+        switch (v.getId()) {
+            case R.id.join_bt:
+                UserConstant.room_Sport_name=UserConstant.list_sport.get( pos ).get( "spName" );
+                String url=UrlConfig.SproomUrl+"?roSportname="+UserConstant.room_Sport_name;
+                UserConstant.room_image_path=UserConstant.list_sport.get( pos ).get( "spRoimg" );
+                requestRooms( url );
+            case R.id.stablish_bt:
+        }
     }
 }

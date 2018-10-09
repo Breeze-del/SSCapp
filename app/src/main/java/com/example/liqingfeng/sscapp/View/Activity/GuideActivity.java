@@ -168,6 +168,7 @@ public class GuideActivity extends Activity {
             startActivity( intent );
         } else {
             ResponseModel responseModel = CheckStatuss.gson.fromJson( userImf, ResponseModel.class );
+            UserConstant.tokenCode=responseModel.getToken();
             UserConstant.uesrID = DataConvertUtil.toInt( responseModel.getFromData( "id" ) );
             //检测Token是否失效
             RequestManager requestManager = RequestManager.getInstance( this );

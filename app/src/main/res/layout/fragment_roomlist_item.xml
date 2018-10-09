@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:baselineAligned="false">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
+            <ImageView
+                android:id="@+id/room_image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:src="@mipmap/ic_basktball"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="180dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/room_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="房间号-"/>
+
+                <TextView
+                    android:id="@+id/room_pNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="180dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="开始时间"/>
+
+                <TextView
+                    android:id="@+id/room_startTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="180dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="结束时间"/>
+
+                <TextView
+                    android:id="@+id/room_endTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="180dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="地点"/>
+
+                <TextView
+                    android:id="@+id/room_place"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp">
+
+            <ImageView
+                android:id="@+id/room_join"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@mipmap/ic_join"
+                android:clickable="true"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

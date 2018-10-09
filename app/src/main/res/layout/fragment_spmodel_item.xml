@@ -25,16 +25,17 @@
             android:focusable="false"
             android:text="创建"
             android:visibility="invisible" />
+
         <Button
+            android:id="@+id/join_bt"
             android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_marginTop="70dp"
             android:layout_marginLeft="220dp"
-            android:text="加入"
-            android:id="@+id/join_bt"
+            android:layout_marginTop="70dp"
+            android:background="@drawable/fragment_spmdel_button"
             android:focusable="false"
-            android:visibility="invisible"
-            android:background="@drawable/fragment_spmdel_button"/>
+            android:text="加入"
+            android:visibility="invisible" />
 
     </FrameLayout>
     </LinearLayout>

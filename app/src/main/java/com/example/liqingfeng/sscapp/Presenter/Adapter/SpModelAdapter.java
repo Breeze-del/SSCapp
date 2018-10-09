@@ -58,7 +58,7 @@ public class SpModelAdapter extends BaseAdapter implements View.OnClickListener 
         ViewHolder viewHolder = null;
         if (view == null) {
             viewHolder = new ViewHolder();
-            view = LayoutInflater.from( mcontext ).inflate( R.layout.fragment_spmodel, null );
+            view = LayoutInflater.from( mcontext ).inflate( R.layout.fragment_spmodel_item, null );
             viewHolder.frameLayout = (FrameLayout) view.findViewById( R.id.sports_flt );
             viewHolder.stablish_vt = (Button) view.findViewById( R.id.stablish_bt );
             viewHolder.join_bt = (Button) view.findViewById( R.id.join_bt );
