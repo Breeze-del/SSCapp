@@ -94,10 +94,10 @@ public class RoomListFragment extends Fragment {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        String url=UrlConfig.SproomUrl+"?roSportname="+UserConstant.room_Sport_name;
                         RequestManager requestManager =RequestManager.getInstance(getActivity());
-                        requestManager.requestAsyn(UrlConfig.SproomUrl,RequestManager.TYPE_GET,
-                                new Param().append("roSportname=",UserConstant.room_Sport_name).end(),
-                                true, new RequestManager.ReqCallBack<ResponseModel>() {
+                        requestManager.requestGetWithoutParam( url, true,
+                                new RequestManager.ReqCallBack<ResponseModel>() {
                                     @Override
                                     public void onReqSuccess(ResponseModel result) {
                                         UserConstant.list_room=(List<Map<String, Object>>)result.getData();

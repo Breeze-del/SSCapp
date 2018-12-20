@@ -56,14 +56,14 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
         //悬浮按钮的点击事件
-        fab = (FloatingActionButton) findViewById( R.id.fab );
-        fab.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make( view, "Replace with your own action", Snackbar.LENGTH_LONG )
-                        .setAction( "Action", null ).show();
-            }
-        } );
+//        fab = (FloatingActionButton) findViewById( R.id.fab );
+//        fab.setOnClickListener( new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make( view, "Replace with your own action", Snackbar.LENGTH_LONG )
+//                        .setAction( "Action", null ).show();
+//            }
+//        } );
         //打开关闭导航栏
         drawer = (DrawerLayout) findViewById( R.id.drawer_layout );
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * 华东切换导航栏和内容板块
+     *  滑动切换导航栏和内容板块
      */
     @Override
     public void onBackPressed() {
@@ -163,6 +163,9 @@ public class MainActivity extends AppCompatActivity
         transaction.commit();
     }
 
+    /**
+     * 为展示运动模块界面 访问数据做准备
+     */
     private void prepareForSpmodelFragment() {
         RequestManager requestManager =RequestManager.getInstance( this );
         requestManager.requestGetWithoutParam( UrlConfig.SpmodleUrl, true,

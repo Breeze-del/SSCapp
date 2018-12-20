@@ -26,6 +26,9 @@ import android.widget.TextView;
 import com.example.liqingfeng.sscapp.Presenter.Util.ViewUtil.ScreenUtils;
 import com.example.liqingfeng.sscapp.R;
 
+import java.io.FileNotFoundException;
+import java.io.IOError;
+
 public class RefreshView extends LinearLayout{
     /**
      * 下拉刷新状态
@@ -317,13 +320,17 @@ public class RefreshView extends LinearLayout{
         if (getChildCount() > 1) {
             childView = this.getChildAt(1);
             if (childView instanceof ListView) {
-                int top = ((ListView) childView).getChildAt(0).getTop();
-                int pad = ((ListView) childView).getListPaddingTop();
-                if ((Math.abs(top - pad)) < 3 &&
-                        ((ListView) childView).getFirstVisiblePosition() == 0) {
-                    return true;
-                } else {
-                    return false;
+                try {
+                    int top = ((ListView) childView).getChildAt(0).getTop();
+                    int pad = ((ListView) childView).getListPaddingTop();
+                    if ((Math.abs(top - pad)) < 3 &&
+                            ((ListView) childView).getFirstVisiblePosition() == 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }catch (IOError e) {
+                    e.printStackTrace();
                 }
             } else if (childView instanceof ScrollView) {
                 if (((ScrollView) childView).getScrollY() == 0) {

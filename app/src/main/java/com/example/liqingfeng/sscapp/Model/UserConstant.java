@@ -34,7 +34,7 @@ public class UserConstant {
      */
     public static List<Map<String,Object>> list_room=new ArrayList<>(  );
     /**
-     * 运动房间的地址
+     * 运动房间的图片地址
      */
     public static String room_image_path="";
     /**

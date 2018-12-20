@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.liqingfeng.sscapp.Model.UrlConfig;
 import com.example.liqingfeng.sscapp.Model.UserConstant;
@@ -85,6 +86,9 @@ public class ImageUtil {
         imageName=setImageName(imgPath);
         FileInputStream fs = new FileInputStream(imageBasePath+imageName);
         Bitmap bitmap  = BitmapFactory.decodeStream(fs);
+        if (bitmap == null){
+            Log.d("bad", "getImage: no picture finding");
+        }
         return bitmap;
     }
 
@@ -156,8 +160,11 @@ public class ImageUtil {
             public void onResponse(Call call, Response response) throws IOException {
                 InputStream inputStream=response.body().byteStream();
                 Bitmap bitmap= BitmapFactory.decodeStream(inputStream);
-                ImageUtil.SavaImage(bitmap,imgname);
-                System.out.println("dd");
+                if(bitmap == null) {
+                    System.out.println("bitmao is null");
+                } else {
+                    ImageUtil.SavaImage(bitmap,imgname);
+                }
             }
         });
     }

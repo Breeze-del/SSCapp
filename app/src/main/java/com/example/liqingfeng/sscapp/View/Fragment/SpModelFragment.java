@@ -61,7 +61,7 @@ public class SpModelFragment extends Fragment implements SpModelAdapter.InnerIte
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view=LayoutInflater.from(getActivity()).inflate( R.layout.fragment_spmodel,null);
         judegeList();
-        initView();
+        initView(true);
         refreshdata();
 
         //ListView item的点击事件
@@ -89,7 +89,7 @@ public class SpModelFragment extends Fragment implements SpModelAdapter.InnerIte
         return view;
     }
     /**
-     * 判断全局的运动模块List是否为空
+     * 判断全局的运动模块List是否为空, 最大列表为200
      */
     private void judegeList() {
         for(int i=0;i<200;i++)
@@ -105,13 +105,15 @@ public class SpModelFragment extends Fragment implements SpModelAdapter.InnerIte
     /**
      * 初化始界面控件
      */
-    private void initView() {
-        refreshableView = (RefreshView) view.findViewById(R.id.refreshableView1);
-        this.listView = (ListView) view.findViewById(R.id.spmodel_listview);
+    private void initView(boolean isFirst) {
+        if(isFirst) {
+            refreshableView = (RefreshView) view.findViewById(R.id.refreshableView1);
+            this.listView = (ListView) view.findViewById(R.id.spmodel_listview);
+            refreshableView.setRefreshEnabled(true);
+        }
         sportsAdapter = new SpModelAdapter(getActivity());
         sportsAdapter.setOnInnerItemOnClickListener( this );
         listView.setAdapter(sportsAdapter);
-        refreshableView.setRefreshEnabled(true);
     }
 
     /**
@@ -134,10 +136,10 @@ public class SpModelFragment extends Fragment implements SpModelAdapter.InnerIte
                                     UserConstant.list_sport=(List<Map<String,String>>) result.getData();
                                     ImageUtil.Image_down(UserConstant.list_sport);
                                     sportsAdapter.postion=-1;
-                                    sportsAdapter.notifyDataSetChanged();
+                                    initView(false);
 //                                    sportsAdapter = new SpModelAdapter(getActivity());
 //                                    listView.setAdapter(sportsAdapter);
-                                      handler.sendEmptyMessage(SUCCESS);
+                                    handler.sendEmptyMessage(SUCCESS);
                                 } else if (CheckStatuss.CheckStatus( result,getActivity() )==2) {
                                     Toast.makeText( getActivity(),"网络出现错误",Toast.LENGTH_SHORT ).show();
                                 } else {
@@ -157,6 +159,11 @@ public class SpModelFragment extends Fragment implements SpModelAdapter.InnerIte
             }
         } );
     }
+
+    /**
+     *  访问得到运动房间列表，在运动模块列表点击加入触发
+     * @param url
+     */
     private void requestRooms(String url) {
         RequestManager requestManager =RequestManager.getInstance( getActivity() );
         requestManager.requestGetWithoutParam( url, true,
@@ -165,10 +172,8 @@ public class SpModelFragment extends Fragment implements SpModelAdapter.InnerIte
             public void onReqSuccess(ResponseModel result){
                 if(CheckStatuss.CheckStatus( result,getActivity() )==1) {
                     UserConstant.list_room=(List<Map<String,Object>>) result.getData();
-                    //打开新的Fragment
-                    FragmentManager fm=getActivity().getFragmentManager();
-                    Fragment fragment=new RoomListFragment();
-                    fm.beginTransaction().replace( R.id.main_content,fragment ).commit();
+                    // 判断房间数目
+                    checkCountForRooms();
                 } else if (CheckStatuss.CheckStatus( result,getActivity() )==2) {
                     Toast.makeText( getActivity(),"网络出现错误",Toast.LENGTH_SHORT ).show();
                 } else {
@@ -196,6 +201,16 @@ public class SpModelFragment extends Fragment implements SpModelAdapter.InnerIte
                 UserConstant.room_image_path=UserConstant.list_sport.get( pos ).get( "spRoimg" );
                 requestRooms( url );
             case R.id.stablish_bt:
+        }
+    }
+
+    private void checkCountForRooms() {
+        if(!UserConstant.list_room.isEmpty()) {
+            FragmentManager fm=getActivity().getFragmentManager();
+            Fragment fragment=new RoomListFragment();
+            fm.beginTransaction().replace( R.id.main_content,fragment ).commit();
+        }else {
+            Toast.makeText(getActivity(), "暂时没有房间，请创建个新房间吧!", Toast.LENGTH_SHORT).show();
         }
     }
 }
