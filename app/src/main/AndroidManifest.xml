@@ -37,6 +37,9 @@
         <activity android:name=".View.Activity.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".View.Activity.PersonalActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

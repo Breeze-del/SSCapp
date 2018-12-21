@@ -161,7 +161,8 @@ public class LoginActivity extends Activity {
     private void loginStart() {
         getLoginerInformation();
         RequestManager requestManager = RequestManager.getInstance( this );
-        requestManager.requestAsyn( UrlConfig.loginUrl, RequestManager.TYPE_GET, parema.end(), false, new RequestManager.ReqCallBack<ResponseModel>() {
+        requestManager.requestAsyn( UrlConfig.loginUrl, RequestManager.TYPE_GET, parema.end(),
+                false, new RequestManager.ReqCallBack<ResponseModel>() {
             @Override
             public void onReqSuccess(ResponseModel result) {
                 code = result.getCode();
@@ -300,6 +301,8 @@ public class LoginActivity extends Activity {
                 Intent intent = new Intent( LoginActivity.this, MainActivity.class );
                 onStop();
                 startActivity( intent );
+                // 销毁登陆Activity
+                finish();
             }
 
             @Override

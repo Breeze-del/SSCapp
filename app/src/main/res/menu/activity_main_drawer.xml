@@ -7,7 +7,7 @@
         <item
             android:id="@+id/nav_sportslevel"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/get_more_about_member" />
+            android:title="@string/backToMain" />
         <item
             android:id="@+id/nav_sportsgrade"
             android:icon="@mipmap/menu_item_wallet"

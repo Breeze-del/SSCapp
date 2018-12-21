@@ -168,7 +168,10 @@ public class GuideActivity extends Activity {
             startActivity( intent );
         } else {
             ResponseModel responseModel = CheckStatuss.gson.fromJson( userImf, ResponseModel.class );
+            // 获取全局用户信息
+            UserConstant.userNickName = (String) responseModel.getFromData("usNickname");
             UserConstant.tokenCode=responseModel.getToken();
+            UserConstant.user_Sign = (String) responseModel.getFromData("usSign");
             UserConstant.uesrID = DataConvertUtil.toInt( responseModel.getFromData( "id" ) );
             //检测Token是否失效
             RequestManager requestManager = RequestManager.getInstance( this );
@@ -178,7 +181,8 @@ public class GuideActivity extends Activity {
             if(  CheckStatuss.CheckStatus( responseModel1,this ) == 1) {
                 String status = responseModel1.getFromData( "usStatus" ) + "";
                 if (status.equals( "1.0" )) {
-                    UserConstant.tokenCode = responseModel.getToken();
+                    // 头像地址
+                    UserConstant.user_head_picture = (String) responseModel1.getFromData("usImg");
                     Intent intent = new Intent( GuideActivity.this, MainActivity.class );
                     startActivity( intent );
                 } else {
@@ -191,6 +195,8 @@ public class GuideActivity extends Activity {
                 startActivity( intent );
             }
         }
+        // 销毁引导Activity
+        finish();
     }
 
     /**

@@ -12,6 +12,7 @@ public class Users implements Parcelable {
     private String usPassword;
     private String usAge;
     private String usNickname;
+    private String usSex;
     private String usSign;
     private String usClass;
     private String usMajor;
@@ -23,6 +24,92 @@ public class Users implements Parcelable {
     public Users()
     {
         super();
+    }
+    public String getUsSex() {
+        return usSex;
+    }
+
+    public void setUsSex(String usSex) {
+        this.usSex = usSex;
+    }
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUsName() {
+        return usName;
+    }
+
+    public String getUsAge() {
+        return usAge;
+    }
+
+    public void setUsAge(String usAge) {
+        this.usAge = usAge;
+    }
+
+    public String getUsNickname() {
+        return usNickname;
+    }
+
+    public String getUsSign() {
+        return usSign;
+    }
+
+    public void setUsSign(String usSign) {
+        this.usSign = usSign;
+    }
+
+    public String getUsClass() {
+        return usClass;
+    }
+
+    public void setUsClass(String usClass) {
+        this.usClass = usClass;
+    }
+
+    public String getUsMajor() {
+        return usMajor;
+    }
+
+    public void setUsMajor(String usMajor) {
+        this.usMajor = usMajor;
+    }
+
+    public String getUsInstitution() {
+        return usInstitution;
+    }
+
+    public void setUsInstitution(String usInstitution) {
+        this.usInstitution = usInstitution;
+    }
+
+    public String getUsRoomid() {
+        return usRoomid;
+    }
+
+    public void setUsRoomid(String usRoomid) {
+        this.usRoomid = usRoomid;
+    }
+
+    public String getUsStatus() {
+        return usStatus;
+    }
+
+    public void setUsStatus(String usStatus) {
+        this.usStatus = usStatus;
+    }
+
+    public String getUsRole() {
+        return usRole;
+    }
+
+    public void setUsRole(String usRole) {
+        this.usRole = usRole;
     }
 
     public Users(String usName, String usPassword, String usAge,
@@ -38,6 +125,7 @@ public class Users implements Parcelable {
         this.usMajor = usMajor;
         this.usInstitution = usInstitution;
         this.usRoomid = usRoomid;
+
         this.usStatus = usStatus;
         this.usRole = usRole;
     }

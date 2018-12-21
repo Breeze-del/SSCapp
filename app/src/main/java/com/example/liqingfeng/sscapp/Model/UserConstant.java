@@ -15,8 +15,7 @@ public class UserConstant {
     /**
      * 本机用户的Token
      */
-    public static String tokenCode="eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3YW5nIiwiYXVkIjoid2FuZyIsImV4cCI6MTUzOTE1MDg3NCwidXNlcklkIjoxL" +
-            "CJpYXQiOjE1MzkwNjQ0NzQsInJvbGVJZCI6MX0.mPxEWg8X3uDbQJiKHK3CmzpccR6qQ3eNeC1plE6Wuk8";
+    public static String tokenCode="";
     /**
      * 本机用户的昵称
      */
@@ -41,4 +40,12 @@ public class UserConstant {
      * 运动房间名字
      */
     public static String room_Sport_name="";
+    /**
+     * 用户头像地址
+     */
+    public static String user_head_picture="";
+    /**
+     * 用户个人签名
+     */
+    public static String user_Sign="";
 }
