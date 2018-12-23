@@ -368,7 +368,8 @@ public class LoginActivity extends Activity {
      * 绘制验证码
      */
     private void drawverify(String varifyString) {
-        Bitmap bitmap = Varify.stringToBitmap( varifyString );
+        Varify varifyUlit = new Varify();
+        Bitmap bitmap = varifyUlit.stringToBitmap( varifyString );
         verify_imageview.setImageBitmap( bitmap );
     }
 

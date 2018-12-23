@@ -43,4 +43,8 @@ public class UrlConfig {
      * 用户信息文件存放地址
      */
     public static String userInformation="user.txt";
+    /**
+     * 参数  userId 头像avatar 将头像上转到后台
+     */
+    public static String sendHeadPicture="/user/setAvatar.do";
 }

@@ -21,6 +21,7 @@ import com.example.liqingfeng.sscapp.Model.Entity.Users;
 import com.example.liqingfeng.sscapp.Model.UrlConfig;
 import com.example.liqingfeng.sscapp.Model.UserConstant;
 import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
+import com.example.liqingfeng.sscapp.Presenter.ImageManage.Varify;
 import com.example.liqingfeng.sscapp.Presenter.Util.ConvertUtil.DataConvertUtil;
 import com.example.liqingfeng.sscapp.Presenter.Util.ImageUtil.FastBlurUtils;
 import com.example.liqingfeng.sscapp.Presenter.Util.ImageUtil.ImageLoaderUtil;
@@ -41,6 +42,7 @@ public class PersonalActivity extends Activity {
     private TextView musClass;
     private TextView musSign;
     private Users userinfo;
+    private Boolean isSend;
 
     Handler handler = new Handler()
     {
@@ -94,6 +96,7 @@ public class PersonalActivity extends Activity {
         musSex=(TextView) findViewById(R.id.info_sex);
         musClass=(TextView) findViewById(R.id.info_classid);
         musSign=(TextView) findViewById(R.id.info_sign);
+        isSend = false;
     }
 
     /**
@@ -134,7 +137,7 @@ public class PersonalActivity extends Activity {
     }
 
     /**
-     * 获取头像
+     * 同步从后台获取用户的头像
      */
     private void getHeadPicture() {
         new Thread(new Runnable() {
@@ -154,6 +157,9 @@ public class PersonalActivity extends Activity {
      * @param view
      */
     public void backMainActivity(View view) {
+        // 将确定的图像上传到后台
+        sendBitmapToS(headPicture);
+        // 调用返回函数
         onBackPressed();
     }
     /**
@@ -174,6 +180,7 @@ public class PersonalActivity extends Activity {
      * @param view
      */
     public void changePicture(View view) {
+        isSend = true;
         startActivityForResult(new Intent(this,MyPhotoActivity.class),0x04);
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
     }
@@ -191,12 +198,41 @@ public class PersonalActivity extends Activity {
             case 0x04:
                 if(resultCode == MyPhotoActivity.FINSH_RESULT && data != null){
                     String path = data.getStringExtra("image");
-                    Log.d("jiejie"," -----MainActivity------" + path);
+                    //Log.d("jiejie"," -----MainActivity------" + path);
                     // 得到选择图片Bitmap
-                    headPicture=BitmapFactory.decodeFile(path);
+                    headPicture = BitmapFactory.decodeFile(path);
+                    // 将得到的图片Bitmap得到，然后显示出来
                     dealImage();
                 }
                 break;
         }
+    }
+
+    /**
+     * 将选择的bitmap上传到后台
+     * @param headBitmap 新的到的头像bitmap
+     */
+    private void sendBitmapToS(Bitmap headBitmap) {
+        if (!isSend) {
+            return;
+        }
+        Varify varify = new Varify();
+        String hpicture =varify.bitmapToBase64(headPicture);
+        RequestManager requestManager = RequestManager.getInstance(this);
+        requestManager.requestPutWithParam(UrlConfig.sendHeadPicture,
+                new Param().append("userId",UserConstant.uesrID+"").append("avatar",hpicture).end(), true,
+                new RequestManager.ReqCallBack<ResponseModel>() {
+                    @Override
+                    public void onReqSuccess(ResponseModel result) {
+                        if (CheckStatuss.CheckStatus(result, getApplicationContext()) == 1) {
+                            //不干什么
+                        }
+                    }
+
+                    @Override
+                    public void onReqFailed(String errorMsg) {
+                        Log.e("falue", errorMsg);
+                    }
+                });
     }
 }

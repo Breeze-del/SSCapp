@@ -338,6 +338,46 @@ public class RequestManager {
         return null;
     }
 
+    /**
+     * 异步Put方法
+     * @param actionUrl 接口地址
+     * @param paramsMap 数据键值对
+     * @param withToken 是否带Token
+     * @param callBack  回调结果
+     * @param <T>       泛型
+     * @return      回调响应结果
+     */
+    public <T> Call requestPutWithParam(String actionUrl, HashMap<String, String> paramsMap, boolean withToken, final ReqCallBack<T> callBack ) {
+        try {
+            String json = gson.toJson( paramsMap );
+            RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json);
+            String requestUrl = String.format("%s%s", BASE_URL, actionUrl);
+            final Request request = addHeaders(withToken).url(requestUrl).put(body).build();
+            final Call call = mOkHttpClient.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    failedCallBack("访问失败", callBack);
+                    Log.e(TAG, e.toString());
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        String string = response.body().string();
+                        Log.e(TAG, "response ----->" + string);
+                        ResponseModel object = gson.fromJson(string,ResponseModel.class);
+                        successCallBack((T) object, callBack);
+                    } else {
+                        failedCallBack("服务器错误", callBack);
+                    }
+                }
+            });
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+        return null;
+    }
     public interface ReqCallBack<T> {
         /**
          * 响应成功
