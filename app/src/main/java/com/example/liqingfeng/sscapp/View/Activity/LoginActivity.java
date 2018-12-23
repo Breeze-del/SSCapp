@@ -347,6 +347,7 @@ public class LoginActivity extends Activity {
     public void register(View view) {
         //得到返回值
         startActivityForResult( new Intent( LoginActivity.this, RegisterActivity.class ), 1 );
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
     }
 
     /**

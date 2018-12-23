@@ -112,6 +112,7 @@ public class RegisterActivity extends Activity {
         intent.putExtra("result",passWord2);
         this.setResult(1, intent);
         this.finish();
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
     }
 
     /**

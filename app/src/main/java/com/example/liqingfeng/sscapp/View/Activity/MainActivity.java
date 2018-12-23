@@ -231,6 +231,7 @@ public class MainActivity extends AppCompatActivity
      */
     public void headPClick() {
         startActivityForResult( new Intent( this, PersonalActivity.class ), 1 );
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
     }
 
     /**

@@ -175,6 +175,7 @@ public class PersonalActivity extends Activity {
      */
     public void changePicture(View view) {
         startActivityForResult(new Intent(this,MyPhotoActivity.class),0x04);
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
     }
 
     /**
