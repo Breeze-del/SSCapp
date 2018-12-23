@@ -3,10 +3,12 @@ package com.example.liqingfeng.sscapp.View.Activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,6 +47,7 @@ public class PersonalActivity extends Activity {
         public void handleMessage(android.os.Message msg) {
             if(msg.what==0x123)
             {
+                // 接受到消息说明已经完成了信息和头像得获取
                 show();
             }
         };
@@ -62,15 +65,22 @@ public class PersonalActivity extends Activity {
      *  填入数据
      */
     private void show() {
-        mHeadP.setImageBitmap(headPicture);
-        headPicture = FastBlurUtils.doBlur(headPicture,20,false);
-        mBackP.setImageBitmap(headPicture);
-
+        dealImage();
         musNickName.setText(userinfo.getUsNickname());
         musName.setText(userinfo.getUsName());
         musSex.setText(userinfo.getUsSex());
         musClass.setText(userinfo.getUsClass());
         musSign.setText(userinfo.getUsSign());
+    }
+
+    /**
+     * 处理传入的bitmap，更新UI
+     */
+    private void dealImage() {
+        mHeadP.setImageBitmap(headPicture);
+        Bitmap or = headPicture;
+        or = FastBlurUtils.doBlur(or,20,false);
+        mBackP.setImageBitmap(or);
     }
 
     /**
@@ -154,7 +164,38 @@ public class PersonalActivity extends Activity {
         Intent intent=new Intent();
         intent.putExtra("nickname",userinfo.getUsNickname());
         intent.putExtra("sign",userinfo.getUsSign());
+        intent.putExtra("image",headPicture);
         this.setResult(1, intent);
         this.finish();
+    }
+
+    /**
+     * 头像的点击事件，打开修改头像的页面,等待返回
+     * @param view
+     */
+    public void changePicture(View view) {
+        startActivityForResult(new Intent(this,MyPhotoActivity.class),0x04);
+    }
+
+    /**
+     * 得到返回的图片的URL，然后选择出图片
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 0x04:
+                if(resultCode == MyPhotoActivity.FINSH_RESULT && data != null){
+                    String path = data.getStringExtra("image");
+                    Log.d("jiejie"," -----MainActivity------" + path);
+                    // 得到选择图片Bitmap
+                    headPicture=BitmapFactory.decodeFile(path);
+                    dealImage();
+                }
+                break;
+        }
     }
 }

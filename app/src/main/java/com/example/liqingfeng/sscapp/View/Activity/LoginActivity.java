@@ -33,6 +33,7 @@ import com.example.liqingfeng.sscapp.Presenter.ImageManage.Varify;
 import com.example.liqingfeng.sscapp.Model.UrlConfig;
 import com.example.liqingfeng.sscapp.Model.UserConstant;
 import com.example.liqingfeng.sscapp.Presenter.Util.AnimUtil.JellyInterpolator;
+import com.example.liqingfeng.sscapp.Presenter.Util.ConvertUtil.DataConvertUtil;
 import com.example.liqingfeng.sscapp.Presenter.Util.FileUtil.FileManager;
 import com.example.liqingfeng.sscapp.Presenter.Util.ImageUtil.ImageUtil;
 import com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil.RequestManager;
@@ -173,6 +174,9 @@ public class LoginActivity extends Activity {
                     loginStatus = (Double) data.get( "status" );
                     if (loginStatus == 1.0) {
                         UserConstant.tokenCode = result.getToken();
+                        UserConstant.userNickName = (String) result.getFromData("usNickname");
+                        UserConstant.user_Sign = (String) result.getFromData("usSign");
+                        UserConstant.uesrID = DataConvertUtil.toInt( result.getFromData( "id" ) );
                     }
                     judgeStatus( loginStatus );
                 } else if (code.equals( "JWT EXPIRE" )) {

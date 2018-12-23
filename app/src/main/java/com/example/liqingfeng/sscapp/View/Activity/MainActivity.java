@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -89,7 +90,16 @@ public class MainActivity extends AppCompatActivity
         // 绑定头像 并异步更新
         headPicture =(CircleImageView) headView.findViewById(R.id.imageView);
         ImageLoaderUtil imageLoaderUtil = ImageLoaderUtil.getInstance(this);
-        imageLoaderUtil.displayImage(headPicture, UrlConfig.imageBaseUrl+UserConstant.user_head_picture);
+        if(!UserConstant.user_head_picture.equals("")) {
+            imageLoaderUtil.displayImage(headPicture, UrlConfig.imageBaseUrl+UserConstant.user_head_picture);
+        }
+        // 绑定头像得点击事件
+        headPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                headPClick();
+            }
+        });
     }
 
     /**
@@ -208,7 +218,6 @@ public class MainActivity extends AppCompatActivity
                             startActivity( intent );
                         }
                     }
-
                     @Override
                     public void onReqFailed(String errorMsg) {
 
@@ -219,9 +228,8 @@ public class MainActivity extends AppCompatActivity
     /**
      * 头像点击事件--进入个人信息页面
      * 等待返回最新的个人信息
-     * @param view
      */
-    public void headPictureClick(View view) {
+    public void headPClick() {
         startActivityForResult( new Intent( this, PersonalActivity.class ), 1 );
     }
 
@@ -235,7 +243,9 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         String nickname = data.getExtras().getString( "nickname" );
         String sign = data.getExtras().getString("sign");
+        Bitmap headBitmap = data.getParcelableExtra("image");
         muserName.setText(nickname);
         muserSign.setText(sign);
+        headPicture.setImageBitmap(headBitmap);
     }
 }
