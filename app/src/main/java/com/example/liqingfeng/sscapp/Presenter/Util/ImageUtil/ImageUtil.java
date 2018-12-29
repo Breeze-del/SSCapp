@@ -61,6 +61,9 @@ public class ImageUtil {
      * @throws IOException
      */
     public static void SavaImage(Bitmap bitmap,String imgPath) throws IOException {
+        if (imgPath.equals("")) {
+            return ;
+        }
         imageName=setImageName(imgPath);
         File f = new File(imageBasePath+imageName);
         FileOutputStream fileOutputStream = null;
@@ -83,11 +86,15 @@ public class ImageUtil {
      * @throws FileNotFoundException
      */
     public static Bitmap getImage(String imgPath) throws FileNotFoundException {
+        if (imgPath.equals("")) {
+            return null;
+        }
         imageName=setImageName(imgPath);
         FileInputStream fs = new FileInputStream(imageBasePath+imageName);
         Bitmap bitmap  = BitmapFactory.decodeStream(fs);
         if (bitmap == null){
             Log.d("bad", "getImage: no picture finding");
+            return null;
         }
         return bitmap;
     }

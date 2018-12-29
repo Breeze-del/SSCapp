@@ -45,8 +45,11 @@ public class DataConvertUtil {
     }
     //double转换int然后string
     public static String doubleToString(double data) {
-        int a= new Double(data).intValue();
-        return intToString( a );
+        Double a= new Double(data);
+        if( a == null) {
+            return "null";
+        }
+        return intToString( a.intValue() );
     }
     //返回时间
     public static String Time(double time) {

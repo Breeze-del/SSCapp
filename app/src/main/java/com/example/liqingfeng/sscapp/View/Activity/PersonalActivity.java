@@ -42,7 +42,7 @@ public class PersonalActivity extends Activity {
     private TextView musClass;
     private TextView musSign;
     private Users userinfo;
-    private Boolean isSend;
+    private Boolean isSend = false;
 
     Handler handler = new Handler()
     {
@@ -116,7 +116,14 @@ public class PersonalActivity extends Activity {
                                 userinfo.setUsName((String) result.getFromData("usName"));
                                 userinfo.setUsNickname((String) result.getFromData("usNickname"));
                                 userinfo.setUsClass((String) result.getFromData("usClass"));
-                                userinfo.setUsSex(DataConvertUtil.doubleToString((double)result.getFromData("usSex")));
+                                int sex = DataConvertUtil.toInt( result.getFromData("usSex"));
+                                if (sex == 1) {
+                                    userinfo.setUsSex("男");
+                                } else if (sex == 2) {
+                                    userinfo.setUsSex("女");
+                                } else {
+                                    userinfo.setUsSex("null");
+                                }
                                 userinfo.setUsSign((String) result.getFromData("usSign"));
                                 UserConstant.user_head_picture = (String) result.getFromData("usImg");
                                 // 获取头像

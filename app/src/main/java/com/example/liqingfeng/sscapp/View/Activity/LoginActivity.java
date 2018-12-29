@@ -177,6 +177,7 @@ public class LoginActivity extends Activity {
                         UserConstant.userNickName = (String) result.getFromData("usNickname");
                         UserConstant.user_Sign = (String) result.getFromData("usSign");
                         UserConstant.uesrID = DataConvertUtil.toInt( result.getFromData( "id" ) );
+                        UserConstant.user_head_picture = (String) result.getFromData("usImg");
                     }
                     judgeStatus( loginStatus );
                 } else if (code.equals( "JWT EXPIRE" )) {

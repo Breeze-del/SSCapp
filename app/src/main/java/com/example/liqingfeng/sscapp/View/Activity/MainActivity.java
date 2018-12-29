@@ -23,6 +23,7 @@ import com.example.liqingfeng.sscapp.Model.Entity.ResponseModel;
 import com.example.liqingfeng.sscapp.Model.UrlConfig;
 import com.example.liqingfeng.sscapp.Model.UserConstant;
 import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
+import com.example.liqingfeng.sscapp.Presenter.Util.FileUtil.FileManager;
 import com.example.liqingfeng.sscapp.Presenter.Util.ImageUtil.ImageLoaderUtil;
 import com.example.liqingfeng.sscapp.Presenter.Util.ImageUtil.ImageUtil;
 import com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil.RequestManager;
@@ -171,6 +172,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_share) {
 
+        } else if (id == R.id.nav_out) {
+            // 退出应用
+            signOut();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById( R.id.drawer_layout );
         drawer.closeDrawer( GravityCompat.START );
@@ -248,5 +252,16 @@ public class MainActivity extends AppCompatActivity
         muserName.setText(nickname);
         muserSign.setText(sign);
         headPicture.setImageBitmap(headBitmap);
+    }
+
+    /**
+     *  退出App
+     */
+    private void signOut() {
+        FileManager fileManager = new FileManager(this, UrlConfig.userInformation);
+        fileManager.writeFileData("");
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        this.finish();
     }
 }

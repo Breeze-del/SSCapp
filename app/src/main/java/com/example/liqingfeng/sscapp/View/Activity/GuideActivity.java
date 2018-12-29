@@ -166,6 +166,7 @@ public class GuideActivity extends Activity {
         if (userImf == null || userImf.equals( "" )) {
             Intent intent = new Intent( GuideActivity.this, LoginActivity.class );
             startActivity( intent );
+            overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         } else {
             ResponseModel responseModel = CheckStatuss.gson.fromJson( userImf, ResponseModel.class );
             // 获取全局用户信息
@@ -181,18 +182,22 @@ public class GuideActivity extends Activity {
             if(  CheckStatuss.CheckStatus( responseModel1,this ) == 1) {
                 String status = responseModel1.getFromData( "usStatus" ) + "";
                 if (status.equals( "1.0" )) {
-                    // 头像地址
+                    // 头像地址 昵称 个性签名
                     UserConstant.user_head_picture = (String) responseModel1.getFromData("usImg");
+                    UserConstant.userNickName = (String) responseModel1.getFromData("usNickname");
+                    UserConstant.user_Sign = (String) responseModel1.getFromData("usSign");
                     Intent intent = new Intent( GuideActivity.this, MainActivity.class );
                     startActivity( intent );
                 } else {
                     Toast.makeText( GuideActivity.this, "用户已被锁定,请联系管理员", Toast.LENGTH_SHORT ).show();
                     Intent intent = new Intent( GuideActivity.this, LoginActivity.class );
                     startActivity( intent );
+                    overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
                 }
             } else {
                 Intent intent = new Intent( GuideActivity.this, LoginActivity.class );
                 startActivity( intent );
+                overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
             }
         }
         // 销毁引导Activity

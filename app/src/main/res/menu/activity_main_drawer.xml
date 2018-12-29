@@ -32,7 +32,11 @@
                 android:id="@+id/nav_aboutus"
                 android:icon="@mipmap/menu_item_aboutus"
                 android:title="@string/aboutus"/>
+            <item
+                android:id="@+id/nav_out"
+                android:icon="@mipmap/menu_item_back"
+                android:title="@string/sign_out">
+            </item>
         </menu>
     </item>
-
 </menu>
