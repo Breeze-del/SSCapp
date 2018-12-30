@@ -7,6 +7,7 @@ import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
@@ -458,5 +459,22 @@ public class LoginActivity extends Activity {
             InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    /**
+     *  无法登陆？ 点击
+     * @param view
+     */
+    public void noLogin(View view) {
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setTitle("无法登陆？");
+        builder.setMessage("无法登陆，暂时只能联系管理员处理问题(还没写┭┮﹏┭┮)");
+        builder.setPositiveButton("我很体谅开发人员的幸苦！", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(LoginActivity.this, "嘤嘤嘤",Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.show();
     }
 }

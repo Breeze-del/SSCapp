@@ -83,7 +83,9 @@
                 android:layout_alignTop="@+id/textView"
                 android:layout_marginStart="90dp"
                 android:text="无法登陆？"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:clickable="true"
+                android:onClick="noLogin"/>
         </RelativeLayout>
     </FrameLayout>
 </android.support.constraint.ConstraintLayout>
