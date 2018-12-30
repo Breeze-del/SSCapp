@@ -401,7 +401,8 @@ public class RequestManager {
                 .addHeader("platform", "2")
                 .addHeader("phoneModel", Build.MODEL)
                 .addHeader("systemVersion", Build.VERSION.RELEASE)
-                .addHeader("appVersion", "3.2.0");
+                .addHeader("appVersion", "3.2.0")
+                .addHeader("Content-Type","application/json;charset=utf-8");
         if(isLogin) {
             builder.addHeader( "Authorization", UserConstant.tokenCode );
         }

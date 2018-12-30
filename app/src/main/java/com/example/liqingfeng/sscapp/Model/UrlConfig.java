@@ -47,4 +47,8 @@ public class UrlConfig {
      * 参数  userId 头像avatar 将头像上转到后台
      */
     public static String sendHeadPicture="/user/setAvatar.do";
+    /**
+     * 将修改的个人信息上传到后台
+     */
+    public static String changeUserInfo = "/user/update.do";
 }

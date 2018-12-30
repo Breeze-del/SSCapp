@@ -80,7 +80,7 @@ public class FileManager {
                 Gson gson = CheckStatuss.gson;
                 String josn=gson.toJson( userInformation );
                 writeFileData( josn );
-                Log.e("file","文件写入成功");
+                //Log.e("file","文件写入成功");
             }
         } ).start();
     }

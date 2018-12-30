@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -46,9 +47,20 @@ public class MainActivity extends AppCompatActivity
     private NavigationView navigationView;//导航栏
     // ----------下面定义的是主界面各个点击元素------------
     private CircleImageView headPicture;  // 头像
+    private Bitmap mhBitmap;
     private TextView muserName;
     private TextView muserSign;
 
+    Handler handler = new Handler()
+    {
+        public void handleMessage(android.os.Message msg) {
+            if(msg.what==0x123)
+            {
+                // 接受到消息说明已经完成了信息和头像得获取
+                headPicture.setImageBitmap(mhBitmap);
+            }
+        };
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -90,9 +102,16 @@ public class MainActivity extends AppCompatActivity
         muserSign.setText(UserConstant.user_Sign);
         // 绑定头像 并异步更新
         headPicture =(CircleImageView) headView.findViewById(R.id.imageView);
-        ImageLoaderUtil imageLoaderUtil = ImageLoaderUtil.getInstance(this);
+        final ImageLoaderUtil imageLoaderUtil = ImageLoaderUtil.getInstance(this);
         if(!UserConstant.user_head_picture.equals("")) {
-            imageLoaderUtil.displayImage(headPicture, UrlConfig.imageBaseUrl+UserConstant.user_head_picture);
+            //imageLoaderUtil.displayImage(headPicture, UrlConfig.imageBaseUrl+UserConstant.user_head_picture);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    mhBitmap = imageLoaderUtil.loadImageBySyn(UrlConfig.imageBaseUrl+UserConstant.user_head_picture);
+                    handler.sendEmptyMessage(0x123);
+                }
+            }).start();
         }
         // 绑定头像得点击事件
         headPicture.setOnClickListener(new View.OnClickListener() {
@@ -234,7 +253,9 @@ public class MainActivity extends AppCompatActivity
      * 等待返回最新的个人信息
      */
     public void headPClick() {
-        startActivityForResult( new Intent( this, PersonalActivity.class ), 1 );
+        Intent intent = new Intent( this, PersonalActivity.class );
+        intent.putExtra("headPicture",mhBitmap);
+        startActivityForResult( intent, 1 );
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
     }
 

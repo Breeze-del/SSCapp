@@ -10,6 +10,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.liqingfeng.sscapp.Model.Entity.Param;
+import com.example.liqingfeng.sscapp.Model.Entity.ResponseModel;
+import com.example.liqingfeng.sscapp.Model.UrlConfig;
+import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
+import com.example.liqingfeng.sscapp.Presenter.ImageManage.Varify;
+import com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil.RequestManager;
 import com.example.liqingfeng.sscapp.R;
 import com.example.liqingfeng.sscapp.View.CustomView.ClipViewLayout;
 
@@ -36,8 +42,8 @@ public class ClipImageActivity extends AppCompatActivity implements View.OnClick
     private void initView() {
         clipViewLayout1 = (ClipViewLayout)findViewById(R.id.clipViewLayout1);
         clipViewLayout2 = (ClipViewLayout)findViewById(R.id.clipViewLayout2);
-        back = (ImageView)findViewById(R.id.iv_back);
-        tv_ok = (TextView)findViewById(R.id.tv_ok);
+        back = (ImageView)findViewById(R.id.photo_back);
+        tv_ok = (TextView)findViewById(R.id.photo_ok);
         back.setOnClickListener(this);
         tv_ok.setOnClickListener(this);
     }
@@ -60,10 +66,10 @@ public class ClipImageActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.iv_back:
+            case R.id.photo_back:
                 finish();
                 break;
-            case R.id.tv_ok:
+            case R.id.photo_ok:
                 generateUriAndReturn();
                 break;
         }
@@ -103,10 +109,38 @@ public class ClipImageActivity extends AppCompatActivity implements View.OnClick
                     }
                 }
             }
+            // 将bitmap上传到后台
+            sendBitmapToS(zoomedCropBitmap);
+
             Intent intent = new Intent();
             intent.setData(mSaveUri);
             setResult(RESULT_OK, intent);
             finish();
         }
+    }
+
+    /**
+     * 将选择的bitmap上传到后台
+     * @param headBitmap 新的到的头像bitmap
+     */
+    private void sendBitmapToS(Bitmap headBitmap) {
+        Varify varify = new Varify();
+        String hpicture =varify.bitmapToBase64(headBitmap);
+        RequestManager requestManager = RequestManager.getInstance(this);
+        requestManager.requestPutWithParam(UrlConfig.sendHeadPicture,
+                new Param().append("avatar",hpicture).end(), true,
+                new RequestManager.ReqCallBack<ResponseModel>() {
+                    @Override
+                    public void onReqSuccess(ResponseModel result) {
+                        if (CheckStatuss.CheckStatus(result, getApplicationContext()) == 1) {
+                            //不干什么
+                        }
+                    }
+
+                    @Override
+                    public void onReqFailed(String errorMsg) {
+                        Log.e("falue", errorMsg);
+                    }
+                });
     }
 }

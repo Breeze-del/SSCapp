@@ -47,6 +47,9 @@
         <activity android:name=".View.Activity.ClipImageActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".View.Activity.ChangeInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

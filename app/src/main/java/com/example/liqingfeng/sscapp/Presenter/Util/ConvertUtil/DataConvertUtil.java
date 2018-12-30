@@ -1,5 +1,6 @@
 package com.example.liqingfeng.sscapp.Presenter.Util.ConvertUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -54,11 +55,8 @@ public class DataConvertUtil {
     //返回时间
     public static String Time(double time) {
         Date dtime = new Date(DataConvertUtil.doubleToLong( time ));
-        return DataConvertUtil.intToString( dtime.getYear() )+"年"+
-                DataConvertUtil.intToString( dtime.getMonth() )+"月"+
-                DataConvertUtil.intToString( dtime.getDay() )+"日"+
-                DataConvertUtil.intToString( dtime.getHours() )+":"+
-                DataConvertUtil.intToString( dtime.getMinutes() );
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY年MM月dd日 HH:mm");
+        return sdf.format(dtime);
     }
 
 }

@@ -27,4 +27,7 @@
     <string name="exercison">more confident</string>
     <string name="share">分享动态</string>
     <string name="sign_out">退出</string>
+    <string name="myTrip">运动足迹</string>
+    <string name="changeInfo">编辑资料</string>
+    <string name="okcahnge">确定修改</string>
 </resources>

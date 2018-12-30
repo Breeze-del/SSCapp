@@ -171,7 +171,11 @@ public class GuideActivity extends Activity {
             ResponseModel responseModel = CheckStatuss.gson.fromJson( userImf, ResponseModel.class );
             // 获取全局用户信息
             UserConstant.userNickName = (String) responseModel.getFromData("usNickname");
-            UserConstant.tokenCode=responseModel.getToken();
+            try {
+                UserConstant.tokenCode=responseModel.getToken();
+            }catch (Exception e) {
+                UserConstant.tokenCode = "123";
+            }
             UserConstant.user_Sign = (String) responseModel.getFromData("usSign");
             UserConstant.uesrID = DataConvertUtil.toInt( responseModel.getFromData( "id" ) );
             //检测Token是否失效

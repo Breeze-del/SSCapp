@@ -1,99 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="87dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:ignore="MissingConstraints">
-
-        <FrameLayout
-            android:id="@+id/dingbu"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fitsSystemWindows="true">
+        <LinearLayout
+            android:id="@+id/change_header"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <RelativeLayout
-                android:id="@+id/navb"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/h_back"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:scaleType="fitXY" />
-
-                <com.example.liqingfeng.sscapp.View.CustomView.CircleImageView
-                    android:id="@+id/h_head"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_centerInParent="true"
-                    android:clickable="true"
-                    android:onClick="changePicture" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/h_back"
-                    android:layout_marginBottom="20dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/user_line"
-                        android:layout_width="1dp"
-                        android:layout_height="25dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/white" />
-
-                    <TextView
-                        android:id="@+id/info_nickname"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@id/user_line"
-                        android:text="张三"
-                        android:textColor="@color/white"
-                        android:textSize="17sp" />
-
-                    <TextView
-                        android:id="@+id/user_val"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_toRightOf="@id/user_line"
-                        android:text="182****5882"
-                        android:textColor="@color/white"
-                        android:textSize="17sp" />
-                </RelativeLayout>
-            </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="24dp">
 
             <TextView
-                android:id="@+id/personal_back_login"
+                android:id="@+id/change_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:drawableLeft="@mipmap/ic_back_black"
-                android:onClick="backMainActivity"
+                android:onClick="backToPersonal"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
-        </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginLeft="80dp"
+                android:text="@string/changeInfo"
+                android:textSize="25sp"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/dingbu"
+            android:layout_below="@+id/change_header"
             android:orientation="vertical"
-            android:paddingTop="15dp">
+            android:gravity="center">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp">
+                android:layout_marginLeft="25dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -102,11 +54,12 @@
                     android:layout_alignParentLeft="true"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="用户名 ："
+                    android:textSize="17sp"
+                    android:text="昵称 ："
                     android:textColor="@color/black" />
 
-                <TextView
-                    android:id="@+id/info_username"
+                <EditText
+                    android:id="@+id/change_userNickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -118,8 +71,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -129,10 +82,11 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="年龄 ："
+                    android:textSize="17sp"
                     android:textColor="@color/black" />
 
-                <TextView
-                    android:id="@+id/info_userAge"
+                <EditText
+                    android:id="@+id/change_userAge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -144,8 +98,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -154,11 +108,12 @@
                     android:layout_alignParentLeft="true"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="性别：  "
+                    android:text="性别 ：  "
+                    android:textSize="17sp"
                     android:textColor="@color/black" />
 
-                <TextView
-                    android:id="@+id/info_sex"
+                <EditText
+                    android:id="@+id/change_sex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -170,8 +125,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -180,11 +135,12 @@
                     android:layout_alignParentLeft="true"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="专业班级：  "
+                    android:text="专业班级 ：  "
+                    android:textSize="17sp"
                     android:textColor="@color/black" />
 
-                <TextView
-                    android:id="@+id/info_classid"
+                <EditText
+                    android:id="@+id/change_classid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -196,8 +152,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -206,11 +162,12 @@
                     android:layout_alignParentLeft="true"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="学院：  "
+                    android:text="学院 ：  "
+                    android:textSize="17sp"
                     android:textColor="@color/black" />
 
-                <TextView
-                    android:id="@+id/info_Institution"
+                <EditText
+                    android:id="@+id/change_Institution"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -222,8 +179,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -232,11 +189,12 @@
                     android:layout_alignParentLeft="true"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="个人签名：  "
+                    android:text="个人签名 ：  "
+                    android:textSize="17sp"
                     android:textColor="@color/black" />
 
-                <TextView
-                    android:id="@+id/info_sign"
+                <EditText
+                    android:id="@+id/change_sign"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -246,33 +204,14 @@
             </RelativeLayout>
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/main_btn_myTrip"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_select"
-                android:textSize="20dp"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/myTrip"
-                android:layout_marginLeft="70dp"
-                android:onClick="sportTrip"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/main_btn_changeInfo"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:text="@string/changeInfo"
-                android:background="@drawable/button_select"
-                android:layout_gravity="center_horizontal"
-                android:onClick="changeInfo"/>
-        </LinearLayout>
+            android:layout_centerInParent="true"
+            android:background="@drawable/button_select"
+            android:text="@string/okcahnge"
+            android:textSize="20sp"
+            android:onClick="okChange"/>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
