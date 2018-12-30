@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -102,6 +103,20 @@ public class MainActivity extends AppCompatActivity
         muserSign.setText(UserConstant.user_Sign);
         // 绑定头像 并异步更新
         headPicture =(CircleImageView) headView.findViewById(R.id.imageView);
+        downPicture();
+        // 绑定头像得点击事件
+        headPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                headPClick();
+            }
+        });
+    }
+
+    /**
+     *  根据头像url下载图片，并显示
+     */
+    private void downPicture() {
         final ImageLoaderUtil imageLoaderUtil = ImageLoaderUtil.getInstance(this);
         if(!UserConstant.user_head_picture.equals("")) {
             //imageLoaderUtil.displayImage(headPicture, UrlConfig.imageBaseUrl+UserConstant.user_head_picture);
@@ -113,13 +128,6 @@ public class MainActivity extends AppCompatActivity
                 }
             }).start();
         }
-        // 绑定头像得点击事件
-        headPicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                headPClick();
-            }
-        });
     }
 
     /**
@@ -255,7 +263,7 @@ public class MainActivity extends AppCompatActivity
     public void headPClick() {
         Intent intent = new Intent( this, PersonalActivity.class );
         intent.putExtra("headPicture",mhBitmap);
-        startActivityForResult( intent, 1 );
+        startActivityForResult( intent, 0x12 );
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
     }
 
@@ -272,6 +280,7 @@ public class MainActivity extends AppCompatActivity
         Bitmap headBitmap = data.getParcelableExtra("image");
         muserName.setText(nickname);
         muserSign.setText(sign);
+        downPicture();
         headPicture.setImageBitmap(headBitmap);
     }
 

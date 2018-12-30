@@ -186,7 +186,7 @@ public class GuideActivity extends Activity {
             if(  CheckStatuss.CheckStatus( responseModel1,this ) == 1) {
                 String status = responseModel1.getFromData( "usStatus" ) + "";
                 if (status.equals( "1.0" )) {
-                    // 头像地址 昵称 个性签名
+                    // 最新头像地址 昵称 个性签名
                     UserConstant.user_head_picture = (String) responseModel1.getFromData("usImg");
                     UserConstant.userNickName = (String) responseModel1.getFromData("usNickname");
                     UserConstant.user_Sign = (String) responseModel1.getFromData("usSign");

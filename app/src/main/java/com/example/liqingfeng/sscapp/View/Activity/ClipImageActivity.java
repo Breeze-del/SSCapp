@@ -115,7 +115,6 @@ public class ClipImageActivity extends AppCompatActivity implements View.OnClick
             Intent intent = new Intent();
             intent.setData(mSaveUri);
             setResult(RESULT_OK, intent);
-            finish();
         }
     }
 
@@ -134,6 +133,7 @@ public class ClipImageActivity extends AppCompatActivity implements View.OnClick
                     public void onReqSuccess(ResponseModel result) {
                         if (CheckStatuss.CheckStatus(result, getApplicationContext()) == 1) {
                             //不干什么
+                            finish();
                         }
                     }
 

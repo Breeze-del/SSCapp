@@ -55,8 +55,10 @@ public class PersonalActivity extends Activity {
             {
                 // 接受到消息说明已经完成了信息和头像得获取
                 show();
+            } else if(msg.what == 0x124) {
+                onBackPressed();
             }
-        };
+        }
     };
 
     @Override
@@ -175,8 +177,6 @@ public class PersonalActivity extends Activity {
     public void backMainActivity(View view) {
         // 请求最新的用户信息并存起来
         requestNewInfo();
-        // 调用返回函数
-        onBackPressed();
     }
     /**
      * 系统回调函数 返回intent携带的数据
@@ -187,7 +187,7 @@ public class PersonalActivity extends Activity {
         intent.putExtra("nickname",userinfo.getUsNickname());
         intent.putExtra("sign",userinfo.getUsSign());
         intent.putExtra("image",headPicture);
-        this.setResult(1, intent);
+        this.setResult(0x1, intent);
         this.finish();
     }
 
@@ -221,7 +221,7 @@ public class PersonalActivity extends Activity {
                 }
                 break;
             case 0x123:
-                if(resultCode == 123) {
+                if(resultCode == 123 && data != null) {
                     String json = data.getExtras().getString("user");
                     userinfo = CheckStatuss.gson.fromJson(json, Users.class);
                     show();
@@ -242,6 +242,7 @@ public class PersonalActivity extends Activity {
                     public void onReqSuccess(ResponseModel result) {
                         if (CheckStatuss.CheckStatus(result, getApplicationContext()) == 1) {
                             UserConstant.user_head_picture = (String) result.getFromData("usImg");
+                            handler.sendEmptyMessage(0x124);
                         }
                     }
 
