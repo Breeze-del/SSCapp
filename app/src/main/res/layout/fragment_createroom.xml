@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical">
+
+        <com.example.liqingfeng.sscapp.View.CustomView.ItemGroup
+            android:id="@+id/create_sportName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:edt_hint_content=""
+            app:jt_visible="false"
+            app:isEditable="false"
+            app:paddingLeft="15dp"
+            app:title="运动名">
+        </com.example.liqingfeng.sscapp.View.CustomView.ItemGroup>
+
+        <com.example.liqingfeng.sscapp.View.CustomView.ItemGroup
+            android:id="@+id/create_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:edt_hint_content="请输入运动地址"
+            app:jt_visible="false"
+            app:paddingLeft="15dp"
+            app:title="地址">
+        </com.example.liqingfeng.sscapp.View.CustomView.ItemGroup>
+
+        <com.example.liqingfeng.sscapp.View.CustomView.ItemGroup
+            android:id="@+id/create_maxnum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:edt_hint_content="请输入最大人数"
+            app:jt_visible="false"
+            app:paddingLeft="15dp"
+            app:title="人数上限">
+        </com.example.liqingfeng.sscapp.View.CustomView.ItemGroup>
+
+        <com.example.liqingfeng.sscapp.View.CustomView.ItemGroup
+            android:id="@+id/create_startTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:edt_hint_content="请选择开始时间"
+            app:isEditable="false"
+            app:paddingLeft="15dp"
+            app:title="开始时间">
+        </com.example.liqingfeng.sscapp.View.CustomView.ItemGroup>
+
+        <com.example.liqingfeng.sscapp.View.CustomView.ItemGroup
+            android:id="@+id/create_endTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:edt_hint_content="请选择结束时间"
+            app:isEditable="false"
+            app:paddingLeft="15dp"
+            app:title="结束时间">
+        </com.example.liqingfeng.sscapp.View.CustomView.ItemGroup>
+
+        <Button
+            android:id="@+id/create_okcreate"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="@string/createroom"
+            android:background="@drawable/button_select" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -51,4 +51,20 @@ public class UrlConfig {
      * 将修改的个人信息上传到后台
      */
     public static String changeUserInfo = "/user/update.do";
+    /**
+     * 加入房间接口
+     */
+    public static String enterRoomUrl = "/room/enter.do";
+    /**
+     *  运动记录接口
+     */
+    public static String sportsLogUrl = "/user/sportsLog.do";
+    /**
+     * 创建房间
+     */
+    public static String createRoomUrl = "/room/create.do";
+    /**
+     *  聊天接口
+     */
+    public static String chatRoomUrl = "ws://wangzhengyu.cn/sports_back/community/";
 }

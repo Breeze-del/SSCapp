@@ -166,7 +166,7 @@ public class SpModelFragment extends Fragment implements SpModelAdapter.InnerIte
      */
     private void requestRooms(String url) {
         RequestManager requestManager =RequestManager.getInstance( getActivity() );
-        requestManager.requestGetWithoutParam( url, true,
+        requestManager.requestGetWithoutParam( url+"&roStatus=3", true,
                 new RequestManager.ReqCallBack<ResponseModel>() {
             @Override
             public void onReqSuccess(ResponseModel result){
@@ -200,7 +200,14 @@ public class SpModelFragment extends Fragment implements SpModelAdapter.InnerIte
                 String url=UrlConfig.SproomUrl+"?roSportname="+UserConstant.room_Sport_name;
                 UserConstant.room_image_path=UserConstant.list_sport.get( pos ).get( "spRoimg" );
                 requestRooms( url );
+                break;
             case R.id.stablish_bt:
+                // 获取当前运动模块名字  跳转到创建房间页面
+                UserConstant.room_Sport_name=UserConstant.list_sport.get( pos ).get( "spName" );
+                FragmentManager fm=getActivity().getFragmentManager();
+                Fragment fragment=new CreateRoomFragment();
+                fm.beginTransaction().replace( R.id.main_content,fragment ).commit();
+                break;
         }
     }
 

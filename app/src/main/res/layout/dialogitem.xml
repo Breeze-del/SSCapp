@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.example.liqingfeng.sscapp.View.CustomView.ItemGroup
+            android:id="@+id/selectRoomId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:edt_hint_content=""
+            app:jt_visible="false"
+            app:paddingLeft="15dp"
+            app:title="房间号">
+        </com.example.liqingfeng.sscapp.View.CustomView.ItemGroup>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

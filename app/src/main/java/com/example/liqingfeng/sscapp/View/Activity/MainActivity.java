@@ -3,6 +3,7 @@ package com.example.liqingfeng.sscapp.View.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -24,6 +26,7 @@ import android.widget.Toast;
 import com.example.liqingfeng.sscapp.Model.Entity.ResponseModel;
 import com.example.liqingfeng.sscapp.Model.UrlConfig;
 import com.example.liqingfeng.sscapp.Model.UserConstant;
+import com.example.liqingfeng.sscapp.Presenter.Adapter.SpRoomAdapter;
 import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
 import com.example.liqingfeng.sscapp.Presenter.Util.FileUtil.FileManager;
 import com.example.liqingfeng.sscapp.Presenter.Util.ImageUtil.ImageLoaderUtil;
@@ -31,6 +34,8 @@ import com.example.liqingfeng.sscapp.Presenter.Util.ImageUtil.ImageUtil;
 import com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil.RequestManager;
 import com.example.liqingfeng.sscapp.R;
 import com.example.liqingfeng.sscapp.View.CustomView.CircleImageView;
+import com.example.liqingfeng.sscapp.View.CustomView.ItemGroup;
+import com.example.liqingfeng.sscapp.View.Fragment.RoomListFragment;
 import com.example.liqingfeng.sscapp.View.Fragment.SpModelFragment;
 
 import java.util.List;
@@ -189,10 +194,13 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_sportslevel) {
             // Handle the camera action
             prepareForSpmodelFragment(false);
-        } else if (id == R.id.nav_sportsgrade) {
-
-        } else if (id == R.id.nav_sportsphoto) {
-
+        } else if (id == R.id.nav_mysign) {
+            // 签到
+            Intent intent = new Intent(this, MysignActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_myroom) {
+            // 搜索房间
+            selectRoom();
         } else if (id == R.id.nav_sportsfeedback) {
 
         } else if (id == R.id.nav_aboutus) {
@@ -293,5 +301,52 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         this.finish();
+    }
+
+    private void selectRoom() {
+        final View layout = View.inflate(this, R.layout.dialogitem,
+                null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("选择房间");
+        builder.setView(layout);
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //获得dialog 中 edittext的值
+                ItemGroup etListLibraryNote = (ItemGroup) layout.findViewById(R.id.selectRoomId);
+                String libraryNote = etListLibraryNote.getText().toString();
+                requestRoomById(libraryNote);
+            }
+        });
+
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
+    private void requestRoomById(String id) {
+        String url=UrlConfig.SproomUrl+"?id="+id;
+        RequestManager requestManager =RequestManager.getInstance(this);
+        requestManager.requestGetWithoutParam( url, true,
+                new RequestManager.ReqCallBack<ResponseModel>() {
+                    @Override
+                    public void onReqSuccess(ResponseModel result) {
+                        UserConstant.list_room=(List<Map<String, Object>>)result.getData();
+                        UserConstant.room_image_path=UserConstant.list_sport.get( 0 ).get( "spRoimg" );
+                        FragmentManager fm=getFragmentManager();
+                        Fragment fragment=new RoomListFragment();
+                        fm.beginTransaction().replace( R.id.main_content,fragment ).commit();
+                    }
+
+                    @Override
+                    public void onReqFailed(String errorMsg) {
+
+                    }
+                });
     }
 }

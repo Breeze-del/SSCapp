@@ -18,6 +18,7 @@ import com.example.liqingfeng.sscapp.Model.Entity.ResponseModel;
 import com.example.liqingfeng.sscapp.Model.UrlConfig;
 import com.example.liqingfeng.sscapp.Model.UserConstant;
 import com.example.liqingfeng.sscapp.Presenter.Adapter.SpRoomAdapter;
+import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
 import com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil.RequestManager;
 import com.example.liqingfeng.sscapp.View.CustomView.RefreshView;
 import com.example.liqingfeng.sscapp.R;
@@ -67,6 +68,8 @@ public class RoomListFragment extends Fragment {
         roomAdapter.setItemcomroomListener(new SpRoomAdapter.onItemcomroomListener() {
             @Override
             public void oncomroomClick(int i) {
+                UserConstant.roomID= ""+new Double(""+UserConstant.list_room.get(i).get("id")).intValue();
+                enterRoom(UserConstant.roomID);
                 FragmentManager fm=getActivity().getFragmentManager();
                 Fragment fragment=new ChatRoomFragment();
                 fm.beginTransaction().replace( R.id.main_content,fragment ).commit();
@@ -94,7 +97,7 @@ public class RoomListFragment extends Fragment {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        String url=UrlConfig.SproomUrl+"?roSportname="+UserConstant.room_Sport_name;
+                        String url=UrlConfig.SproomUrl+"?roSportname="+UserConstant.room_Sport_name+"&roStatus=3";
                         RequestManager requestManager =RequestManager.getInstance(getActivity());
                         requestManager.requestGetWithoutParam( url, true,
                                 new RequestManager.ReqCallBack<ResponseModel>() {
@@ -116,4 +119,26 @@ public class RoomListFragment extends Fragment {
             }
         });
     }
+
+    /**
+     * 加入房间
+     */
+    private void enterRoom(String id) {
+        RequestManager requestManager =RequestManager.getInstance(getActivity());
+        requestManager.requestPutWithParam(UrlConfig.enterRoomUrl, new Param().append("id", id).end(),
+                true, new RequestManager.ReqCallBack<ResponseModel>() {
+                    @Override
+                    public void onReqSuccess(ResponseModel result) {
+                        if(CheckStatuss.CheckStatus(result, getActivity()) != 1) {
+                            Toast.makeText(getActivity(),"加入失败",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onReqFailed(String errorMsg) {
+                        Toast.makeText(getActivity(),"加入失败",Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
 }

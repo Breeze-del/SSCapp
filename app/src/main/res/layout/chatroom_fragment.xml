@@ -29,6 +29,7 @@
                 android:divider="#0000"
                 android:dividerHeight="8dp"
                 android:scrollbars="none"
+                android:stackFromBottom="true"
                 android:background="@drawable/chatroom_circle_button">
             </ListView>
         </LinearLayout>
@@ -60,6 +61,16 @@
                 android:layout_marginRight="4dp"
                 android:background="@drawable/chatroom_circle_button"
                 android:text="发送"/>
+            <Button
+                android:id="@+id/btn_chat_message_back"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="64dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center|right"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/chatroom_circle_button"
+                android:text="退出"/>
         </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

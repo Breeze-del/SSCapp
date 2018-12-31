@@ -16,9 +16,9 @@
     <string name="setting">设置</string>
     <string name="back">退出</string>
     <string name="my_feedback">提交反馈</string>
-    <string name="my_photo">我的运动相册</string>
+    <string name="my_room">搜索房间</string>
     <string name="aboutus">关于我们</string>
-    <string name="my_grade">我的积分</string>
+    <string name="my_sign">每日签到</string>
     <string name="add">添加</string>
     <string name="more">更多</string>
     <string name="backToMain">运动模块</string>
@@ -30,4 +30,5 @@
     <string name="myTrip">运动足迹</string>
     <string name="changeInfo">编辑资料</string>
     <string name="okcahnge">确定修改</string>
+    <string name="createroom">创建房间</string>
 </resources>

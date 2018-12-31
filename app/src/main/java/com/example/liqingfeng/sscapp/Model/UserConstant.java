@@ -48,4 +48,8 @@ public class UserConstant {
      * 用户个人签名
      */
     public static String user_Sign="";
+    /**
+     *  加入房间号
+     */
+    public static String  roomID="";
 }

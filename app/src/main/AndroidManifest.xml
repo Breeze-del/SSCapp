@@ -50,6 +50,9 @@
         <activity android:name=".View.Activity.ChangeInfoActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".View.Activity.MysignActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

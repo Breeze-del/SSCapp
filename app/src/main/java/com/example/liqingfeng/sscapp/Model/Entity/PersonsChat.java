@@ -1,16 +1,35 @@
 package com.example.liqingfeng.sscapp.Model.Entity;
 
 public class PersonsChat {
-    private int id;
+    private String id;
+    private String imgUrl;
     private String name;
     private String chatMessage;
+    private String time;
     private boolean isMeSend;
 
-    public int getId() {
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -30,15 +49,15 @@ public class PersonsChat {
         this.chatMessage = chatMessage;
     }
 
-    public boolean isMeSend() {
-        return isMeSend;
-    }
 
     public void setMeSend(boolean meSend) {
         isMeSend = meSend;
     }
+    public boolean getMeSend() {
+        return isMeSend;
+    }
 
-    public PersonsChat(int id, String name, String chatMessage, boolean isMeSend) {
+    public PersonsChat(String id, String name, String chatMessage, boolean isMeSend) {
         super();
         this.id = id;
         this.name = name;

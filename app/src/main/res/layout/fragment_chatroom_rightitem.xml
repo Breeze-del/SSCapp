@@ -19,7 +19,7 @@
         android:textSize="13sp"
         android:visibility="gone" />
 
-    <ImageView
+    <com.example.liqingfeng.sscapp.View.CustomView.CircleImageView
         android:id="@+id/iv_myAvatar"
         android:layout_width="50dp"
         android:layout_height="50dp"
