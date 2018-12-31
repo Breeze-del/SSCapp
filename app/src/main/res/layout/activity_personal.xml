@@ -260,7 +260,7 @@
                 android:background="@drawable/button_select"
                 android:textSize="20dp"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/myTrip"
+                android:text="@string/xiugaimima"
                 android:layout_marginLeft="70dp"
                 android:onClick="sportTrip"/>
 

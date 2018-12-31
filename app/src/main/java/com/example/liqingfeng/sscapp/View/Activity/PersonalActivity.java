@@ -265,10 +265,12 @@ public class PersonalActivity extends Activity {
     }
 
     /**
-     * 运动足迹
+     * 修改密码
      * @param view
      */
     public void sportTrip(View view) {
-
+        Intent intent = new Intent(this, ChangePasswordActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
     }
 }

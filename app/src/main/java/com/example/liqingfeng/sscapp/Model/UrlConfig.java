@@ -67,4 +67,8 @@ public class UrlConfig {
      *  聊天接口
      */
     public static String chatRoomUrl = "ws://wangzhengyu.cn/sports_back/community/";
+    /**
+     * 改密码接口
+     */
+    public static String changePasswordUrl = "/user/setPass.do";
 }

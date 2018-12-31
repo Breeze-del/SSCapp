@@ -62,7 +62,7 @@ public class RegisterActivity extends Activity {
                 || passWord1.trim().equals("")||passWord2.trim().equals("")) {
             Toast.makeText(RegisterActivity.this, "输入不能为空", Toast.LENGTH_SHORT).show();
         } else if (!passWord1.equals(passWord2)){
-            Toast.makeText(RegisterActivity.this,"再次输入密码不正确",Toast.LENGTH_SHORT).show();
+            Toast.makeText(RegisterActivity.this,"两次输入密码不一致",Toast.LENGTH_SHORT).show();
         } else {
             //数据加密
             passWord1 += "swust_sport";
