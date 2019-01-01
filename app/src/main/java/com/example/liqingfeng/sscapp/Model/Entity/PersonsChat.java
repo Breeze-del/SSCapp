@@ -1,15 +1,28 @@
 package com.example.liqingfeng.sscapp.Model.Entity;
 
+import com.example.liqingfeng.sscapp.Presenter.Util.ConvertUtil.DataConvertUtil;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class PersonsChat {
+    // 用户ID
     private String id;
+    // 图片url
     private String imgUrl;
+    // 用户名字
     private String name;
+    // 消息
     private String chatMessage;
+    // 时间
     private String time;
+    // 是不是自己发送得
     private boolean isMeSend;
 
-    public String getTime() {
-        return time;
+    public String getTime(){
+        Date dtime = new Date(Long.parseLong(time));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
+        return sdf.format(dtime);
     }
 
     public void setTime(String time) {

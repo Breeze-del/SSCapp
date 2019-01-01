@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="#c2c2c2"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="0dp"
@@ -16,7 +16,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1000dp"
+            android:layout_height="fill_parent"
             android:layout_marginTop="6dp"
             android:layout_weight="1"
             android:orientation="vertical"
@@ -28,8 +28,6 @@
                 android:layout_height="fill_parent"
                 android:divider="#0000"
                 android:dividerHeight="8dp"
-                android:scrollbars="none"
-                android:stackFromBottom="true"
                 android:background="@drawable/chatroom_circle_button">
             </ListView>
         </LinearLayout>

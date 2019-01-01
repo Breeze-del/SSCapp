@@ -22,7 +22,7 @@
         android:paddingStart="5dp"
         android:paddingTop="1dp"
         android:textSize="13sp"
-        android:visibility="gone" />
+        android:text="2018"/>
 
     <com.example.liqingfeng.sscapp.View.CustomView.CircleImageView
         android:id="@+id/iv_friendAvatar"
@@ -44,7 +44,7 @@
         android:layout_toEndOf="@id/iv_friendAvatar"
         android:textColor="@color/black"
         android:textSize="13sp"
-        android:visibility="invisible" />
+        android:text="123"/>
 
     <TextView
         android:id="@+id/tv_friend_message"

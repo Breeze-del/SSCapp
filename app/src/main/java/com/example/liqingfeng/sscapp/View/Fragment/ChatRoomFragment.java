@@ -7,6 +7,8 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +24,7 @@ import com.example.liqingfeng.sscapp.Model.Entity.PersonsChat;
 import com.example.liqingfeng.sscapp.Model.Entity.ResponseModel;
 import com.example.liqingfeng.sscapp.Model.UrlConfig;
 import com.example.liqingfeng.sscapp.Model.UserConstant;
-import com.example.liqingfeng.sscapp.Presenter.Adapter.ChatroomAdapter;
+import com.example.liqingfeng.sscapp.Presenter.Adapter.NewChatroomAdapter;
 import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
 import com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil.RequestManager;
 import com.example.liqingfeng.sscapp.R;
@@ -38,41 +40,23 @@ import java.util.List;
 
 public class ChatRoomFragment extends Fragment {
     private View view;
-    private ChatroomAdapter chatAdapter;
-    private ListView lv_chat_dialog;
+    private RecyclerView recyclerView;
+    private NewChatroomAdapter msgAdapter;
     //WebSocket 创建
     private WebSocketClient mSocketClient;
     private Button btn_chat_message_send;
     private Button back;
+    private EditText et_chat_message;
 
     //实体消息集合
     private List<PersonsChat> personsChats =new ArrayList<PersonsChat>(  );
-    private Handler handler = new Handler(  ) {
-        public void handleMessage(android.os.Message msg) {
-            int what = msg.what;
-            switch (what) {
-                case 1:
-                    lv_chat_dialog.setSelection( personsChats.size() );
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate( R.layout.chatroom_fragment, null );
-        init();
-        lv_chat_dialog = (ListView) view.findViewById( R.id.lv_chat_dialog );
-        lv_chat_dialog.setFastScrollAlwaysVisible(true);
-        btn_chat_message_send = (Button) view.findViewById( R.id.btn_chat_message_send );
-        back = (Button) view.findViewById(R.id.btn_chat_message_back);
-        final EditText et_chat_message = (EditText) view.findViewById( R.id.et_chat_message );
 
-        /**
-         *setAdapter
-         */
-        chatAdapter = new ChatroomAdapter( getActivity(), personsChats );
-        lv_chat_dialog.setAdapter( chatAdapter );
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate( R.layout.newchatroom_fragment, null );
+        initView();
+        init();
+
+
         /**
          * 发送按钮的点击事件
          */
@@ -99,22 +83,31 @@ public class ChatRoomFragment extends Fragment {
                 personsChats.add( personChat );
                 //清空输入框
                 et_chat_message.setText( "" );
-                //刷新ListView
-                refreshListview();
+                //要求适配器重新刷新
+                msgAdapter.notifyItemInserted(personsChats.size()-1);
+                //要求recyclerView布局将消息刷新
+                recyclerView.scrollToPosition(personsChats.size()-1);
             }
         } );
-        init();
         backToRoom();
         return view;
     }
 
-    /**
-     * 刷新listview
-     */
-    public void refreshListview() {
-        handler.sendEmptyMessage( 1 );
-        chatAdapter.notifyDataSetChanged();
+    private void initView() {
+        recyclerView = (RecyclerView) view.findViewById( R.id.chatroomRecyclerView );
+        btn_chat_message_send = (Button) view.findViewById( R.id.send );
+        back = (Button) view.findViewById(R.id.back);
+        et_chat_message = (EditText) view.findViewById(R.id.enter);
+        // 布局排列方式
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(layoutManager);
+        msgAdapter = new NewChatroomAdapter(personsChats);
+        recyclerView.setAdapter(msgAdapter);
+
     }
+
+
     private void init() {
         try {
             if(mSocketClient != null) {
@@ -143,7 +136,11 @@ public class ChatRoomFragment extends Fragment {
                             String img = mess[3];
                             String msg = mess[4];
                             PersonsChat personsChat=new PersonsChat(  );
-                            personsChat.setMeSend( false );
+                            if( id.equals(UserConstant.uesrID+"")) {
+                                personsChat.setMeSend(true);
+                            } else {
+                                personsChat.setMeSend(false);
+                            }
                             personsChat.setName(nickName);
                             personsChat.setId(id);
                             personsChat.setImgUrl(img);
@@ -160,7 +157,11 @@ public class ChatRoomFragment extends Fragment {
                         String msg = mess[4];
                     //将收到的信息加入到消息实体列表中
                         PersonsChat personsChat=new PersonsChat(  );
-                        personsChat.setMeSend( false );
+                        if( id.equals(UserConstant.uesrID+"")) {
+                            personsChat.setMeSend(true);
+                        } else {
+                            personsChat.setMeSend(false);
+                        }
                         personsChat.setName(nickName);
                         personsChat.setTime(date);
                         personsChat.setId(id);
@@ -168,7 +169,10 @@ public class ChatRoomFragment extends Fragment {
                         personsChat.setChatMessage( msg );
                         personsChats.add( personsChat );
                      }
-                    refreshListview();
+                    //要求适配器重新刷新
+                    msgAdapter.notifyItemInserted(personsChats.size()-1);
+                    //要求recyclerView布局将消息刷新
+                    recyclerView.scrollToPosition(personsChats.size()-1);
                 }
 
                 @Override

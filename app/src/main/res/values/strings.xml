@@ -33,4 +33,6 @@
     <string name="createroom">创建房间</string>
     <string name="xiugaimima">修改密码</string>
     <string name="signD">签到</string>
+    <string name="contentHints">输入信息</string>
+    <string name="send">发送</string>
 </resources>

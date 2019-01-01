@@ -92,7 +92,7 @@ public class ChatroomAdapter extends BaseAdapter {
                 holderAll.holderViewMy.tv_my_message.setText(lists.get(i).getChatMessage());
                 return myView;
             } else {
-                //imageLoaderUtil.displayImage(holderAll.holderViewFriend.iv_friendAvatar, UrlConfig.imageBaseUrl+lists.get(i).getImgUrl());
+                imageLoaderUtil.displayImage(holderAll.holderViewFriend.iv_friendAvatar, UrlConfig.imageBaseUrl+lists.get(i).getImgUrl());
                 holderAll.holderViewFriend.tv_friendName.setText(lists.get(i).getName());
                 holderAll.holderViewFriend.tv_chart_me_message.setText(lists.get(i).getChatMessage());
                 holderAll.holderViewFriend.tv_friendMsgSendTime.setText(lists.get(i).getTime());

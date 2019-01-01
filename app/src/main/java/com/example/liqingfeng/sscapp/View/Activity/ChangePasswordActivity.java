@@ -70,7 +70,7 @@ public class ChangePasswordActivity extends Activity {
                         if (CheckStatuss.CheckStatus(result, getApplicationContext()) == 1) {
                             //不干什么
                             if(result.getData().equals("true")) {
-                                Toast.makeText(getApplicationContext(),"请重新登陆",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"修改密码成功,请重新登陆",Toast.LENGTH_SHORT).show();
                                 FileManager fileManager = new FileManager(getApplicationContext(), UrlConfig.userInformation);
                                 fileManager.writeFileData("");
                                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -79,7 +79,7 @@ public class ChangePasswordActivity extends Activity {
                                 overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
                             }
                         } else {
-                            Toast.makeText(getApplicationContext(),"后台错误",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"修改密码失败",Toast.LENGTH_SHORT).show();
                         }
                     }
 

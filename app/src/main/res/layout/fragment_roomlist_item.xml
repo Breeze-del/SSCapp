@@ -139,8 +139,8 @@
                 android:id="@+id/room_delete"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@mipmap/ic_join"
-                android:clickable="false"
+                android:src="@mipmap/ic_delete"
+                android:clickable="true"
                 android:visibility="invisible"/>
 
         </LinearLayout>

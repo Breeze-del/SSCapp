@@ -20,6 +20,7 @@
                 android:drawableLeft="@mipmap/ic_back_black"
                 android:textColor="@color/black"
                 android:onClick="backForNoChange"
+                android:clickable="true"
                 android:textSize="20dp" />
             <TextView
                 android:layout_width="wrap_content"
