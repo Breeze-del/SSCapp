@@ -55,7 +55,7 @@ public class DataConvertUtil {
     //返回时间
     public static String Time(double time) {
         Date dtime = new Date(DataConvertUtil.doubleToLong( time ));
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY年MM月dd日 HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
         return sdf.format(dtime);
     }
 

@@ -13,21 +13,21 @@
             android:icon="@mipmap/menu_item_wallet"
             android:title="@string/my_sign" />
         <item
-            android:id="@+id/nav_myroom"
+            android:id="@+id/nav_searchRoom"
             android:icon="@mipmap/menu_item_photo"
             android:title="@string/my_room" />
         <item
-            android:id="@+id/nav_sportsfeedback"
-            android:icon="@mipmap/menu_item_feedback"
-            android:title="@string/my_feedback" />
+            android:id="@+id/nav_myRoom"
+            android:icon="@drawable/ic_menu_share"
+            android:title="@string/myroom" />
     </group>
 
     <item android:title="@string/exercison">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/share" />
+                android:id="@+id/nav_sendFeedback"
+                android:icon="@mipmap/menu_item_feedback"
+                android:title="@string/my_feedback" />
             <item
                 android:id="@+id/nav_aboutus"
                 android:icon="@mipmap/menu_item_aboutus"

@@ -71,4 +71,16 @@ public class UrlConfig {
      * 改密码接口
      */
     public static String changePasswordUrl = "/user/setPass.do";
+    /**
+     * 删除房间
+     */
+    public static String deleteRoomUrl="/room/end.do";
+    /**
+     * 发送反馈
+     */
+    public static String sendFeedbackByUrl= "/complain/insert.do";
+    /**
+     * 签到接口
+     */
+    public static String signUrl = "/user/sign.do";
 }

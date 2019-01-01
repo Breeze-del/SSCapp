@@ -56,13 +56,6 @@ public class RoomListFragment extends Fragment {
         initList();
         initView();
         refeshData();
-        //ListView的点击事件
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity(), "第" + i + "行", Toast.LENGTH_LONG).show();
-            }
-        });
 
         //点击事件 创建
         roomAdapter.setItemcomroomListener(new SpRoomAdapter.onItemcomroomListener() {
@@ -74,15 +67,27 @@ public class RoomListFragment extends Fragment {
                 Fragment fragment=new ChatRoomFragment();
                 fm.beginTransaction().replace( R.id.main_content,fragment ).commit();
             }
+            @Override
+            public void deleteOnclick(int i) {
+                deleteRoomById(((Double)UserConstant.list_room.get(i).get("id")).intValue());
+                FragmentManager fm=getActivity().getFragmentManager();
+                Fragment fragment=new SpModelFragment();
+                fm.beginTransaction().replace( R.id.main_content,fragment ).commit();
+                Toast.makeText(getActivity(),"关闭房间成功",Toast.LENGTH_SHORT).show();
+            }
         });
         return view;
     }
+
+
     private void initList() {
         if(UserConstant.list_room ==null)
         {
             Log.d("失败", " 全局变量list_map 为空了  需要检查或者重新获取list_map");
         }
     }
+
+
     private void initView() {
         refreshableView = (RefreshView) view.findViewById(R.id.refreshableView2);
         roomAdapter=new SpRoomAdapter(getActivity());
@@ -90,6 +95,8 @@ public class RoomListFragment extends Fragment {
         listView.setAdapter(roomAdapter);
         refreshableView.setRefreshEnabled(true);
     }
+
+
     private void refeshData() {
         refreshableView.setRefreshListener(new RefreshView.RefreshListener() {
             @Override
@@ -104,8 +111,7 @@ public class RoomListFragment extends Fragment {
                                     @Override
                                     public void onReqSuccess(ResponseModel result) {
                                         UserConstant.list_room=(List<Map<String, Object>>)result.getData();
-                                        roomAdapter = new SpRoomAdapter(getActivity());
-                                        listView.setAdapter(roomAdapter);
+                                        roomAdapter.notifyDataSetChanged();
                                         handler.sendEmptyMessage(SUCCESS);
                                     }
 
@@ -137,6 +143,24 @@ public class RoomListFragment extends Fragment {
                     @Override
                     public void onReqFailed(String errorMsg) {
                         Toast.makeText(getActivity(),"加入失败",Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void deleteRoomById(int roomID) {
+        RequestManager requestManager =RequestManager.getInstance(getActivity());
+        requestManager.requestPutWithParam(UrlConfig.deleteRoomUrl, new Param().append("id", roomID+"").end(),
+                true, new RequestManager.ReqCallBack<ResponseModel>() {
+                    @Override
+                    public void onReqSuccess(ResponseModel result) {
+                        if(CheckStatuss.CheckStatus(result, getActivity()) != 1) {
+                            Toast.makeText(getActivity(),"删除房间失败",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onReqFailed(String errorMsg) {
+                        Toast.makeText(getActivity(),"删除房间失败",Toast.LENGTH_SHORT).show();
                     }
                 });
     }

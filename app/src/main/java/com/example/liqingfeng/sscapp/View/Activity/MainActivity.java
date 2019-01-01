@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.liqingfeng.sscapp.Model.Entity.Param;
 import com.example.liqingfeng.sscapp.Model.Entity.ResponseModel;
 import com.example.liqingfeng.sscapp.Model.UrlConfig;
 import com.example.liqingfeng.sscapp.Model.UserConstant;
@@ -198,15 +199,17 @@ public class MainActivity extends AppCompatActivity
             // 签到
             Intent intent = new Intent(this, MysignActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_myroom) {
+        } else if (id == R.id.nav_searchRoom) {
             // 搜索房间
             selectRoom();
-        } else if (id == R.id.nav_sportsfeedback) {
-
+        } else if (id == R.id.nav_sendFeedback) {
+            // 提交反馈
+            sendFeedback();
         } else if (id == R.id.nav_aboutus) {
 
-        } else if (id == R.id.nav_share) {
-
+        } else if (id == R.id.nav_myRoom) {
+            // 我的房间
+            requestRoomById(UserConstant.roomID);
         } else if (id == R.id.nav_out) {
             // 退出应用
             signOut();
@@ -330,17 +333,65 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void requestRoomById(String id) {
-        String url=UrlConfig.SproomUrl+"?id="+id;
+        String url=UrlConfig.SproomUrl+"?id="+id+"&roStatus=3";
         RequestManager requestManager =RequestManager.getInstance(this);
         requestManager.requestGetWithoutParam( url, true,
                 new RequestManager.ReqCallBack<ResponseModel>() {
                     @Override
                     public void onReqSuccess(ResponseModel result) {
                         UserConstant.list_room=(List<Map<String, Object>>)result.getData();
-                        UserConstant.room_image_path=UserConstant.list_sport.get( 0 ).get( "spRoimg" );
-                        FragmentManager fm=getFragmentManager();
-                        Fragment fragment=new RoomListFragment();
-                        fm.beginTransaction().replace( R.id.main_content,fragment ).commit();
+                        if(UserConstant.list_room.size() == 0) {
+                            Toast.makeText(getApplicationContext(),"房间已关闭！",Toast.LENGTH_SHORT).show();
+                            addFragment(new SpModelFragment() ,false);
+                        } else{
+                            UserConstant.room_image_path=UserConstant.list_sport.get( 0 ).get( "spRoimg" );
+                            FragmentManager fm=getFragmentManager();
+                            Fragment fragment=new RoomListFragment();
+                            fm.beginTransaction().replace( R.id.main_content,fragment ).commit();
+                        }
+                    }
+
+                    @Override
+                    public void onReqFailed(String errorMsg) {
+
+                    }
+                });
+    }
+
+    private void sendFeedback() {
+        final View layout = View.inflate(this, R.layout.sendfeedbackdialog,
+                null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提交反馈");
+        builder.setView(layout);
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //获得dialog 中 edittext的值
+                TextView etListLibraryNote = (TextView) layout.findViewById(R.id.feedback);
+                String libraryNote = etListLibraryNote.getText().toString();
+                // 提交反馈
+                send(libraryNote);
+            }
+        });
+
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
+    private void send(String text) {
+        RequestManager requestManager = RequestManager.getInstance(this);
+        requestManager.requestAsyn(UrlConfig.sendFeedbackByUrl, RequestManager.TYPE_POST_JSON, new Param().append("coContent", text).end(),
+                true, new RequestManager.ReqCallBack<ResponseModel>() {
+                    @Override
+                    public void onReqSuccess(ResponseModel result) {
+                        Toast.makeText(getApplicationContext(), "人家知道了，嘤嘤嘤┭┮﹏┭┮",Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

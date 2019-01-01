@@ -190,6 +190,7 @@ public class GuideActivity extends Activity {
                     UserConstant.user_head_picture = (String) responseModel1.getFromData("usImg");
                     UserConstant.userNickName = (String) responseModel1.getFromData("usNickname");
                     UserConstant.user_Sign = (String) responseModel1.getFromData("usSign");
+                    UserConstant.roomID= ""+new Double(""+responseModel1.getFromData("usRoomid")).intValue();
                     Intent intent = new Intent( GuideActivity.this, MainActivity.class );
                     startActivity( intent );
                 } else {

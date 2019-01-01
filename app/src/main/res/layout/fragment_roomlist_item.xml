@@ -124,14 +124,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="20dp">
+            android:paddingTop="20dp"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/room_join"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:src="@mipmap/ic_join"
                 android:clickable="true"/>
+
+            <ImageView
+                android:id="@+id/room_delete"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@mipmap/ic_join"
+                android:clickable="false"
+                android:visibility="invisible"/>
 
         </LinearLayout>
 

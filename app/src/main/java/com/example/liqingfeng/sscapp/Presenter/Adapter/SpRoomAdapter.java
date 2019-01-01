@@ -56,6 +56,7 @@ public class SpRoomAdapter extends BaseAdapter {
             viewHolder.room_endTime=(TextView)view.findViewById( R.id.room_endTime );
             viewHolder.room_place=(TextView)view.findViewById( R.id.room_place );
             viewHolder.room_join=(ImageView)view.findViewById( R.id.room_join );
+            viewHolder.room_delete = (ImageView)view.findViewById(R.id.room_delete);
             view.setTag( viewHolder );
         }
         else {
@@ -71,6 +72,9 @@ public class SpRoomAdapter extends BaseAdapter {
             viewHolder.room_place.setText( (String) mlist.get( i ).get( "roLocation" ) );
             Bitmap bitmap = ImageUtil.getImage( UserConstant.room_image_path);
             viewHolder.room_image.setImageBitmap( bitmap );
+            if(mlist.get(i).get("roOwnerid").equals(new Double(UserConstant.uesrID))) {
+                viewHolder.room_delete.setVisibility(View.VISIBLE);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -81,12 +85,19 @@ public class SpRoomAdapter extends BaseAdapter {
                 monItemcomroomListener.oncomroomClick(i);
             }
         });
+        viewHolder.room_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                monItemcomroomListener.deleteOnclick(i);
+            }
+        });
         return view;
     }
 
 
     public interface onItemcomroomListener {
         void oncomroomClick(int i);
+        void deleteOnclick(int i);
     }
     private onItemcomroomListener monItemcomroomListener;
     public void setItemcomroomListener(onItemcomroomListener monItemStablishListener)
@@ -102,5 +113,6 @@ public class SpRoomAdapter extends BaseAdapter {
         TextView room_endTime;
         TextView room_place;
         ImageView room_join;
+        ImageView room_delete;
     }
 }

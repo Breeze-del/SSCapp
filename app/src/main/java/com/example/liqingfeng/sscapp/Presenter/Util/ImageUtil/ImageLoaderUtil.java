@@ -26,7 +26,7 @@ import static okhttp3.internal.Internal.instance;
  * 分装了Okhttp部分异步请求方法
  */
 public class ImageLoaderUtil {
-    private static final int THREAD_COUNT = 2;
+    private static final int THREAD_COUNT = 5;
     private static final int PRIORITY = 2;
     private static final int DISK_CACHE_SIZE = 50 * 1024 * 1024;
     private static final int CONNECTION_TIME_OUT = 5 * 1000;
@@ -75,7 +75,7 @@ public class ImageLoaderUtil {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)//设置下载的图片是否缓存在内存中, 重要，否则图片不会缓存到内存中
                 .cacheOnDisk(true)//设置下载的图片是否缓存在SD卡中, 重要，否则图片不会缓存到硬盘中
-                .considerExifParams(true)  //是否考虑JPEG图像EXIF参数（旋转，翻转）
+                .considerExifParams(false)  //是否考虑JPEG图像EXIF参数（旋转，翻转）
                 .imageScaleType( ImageScaleType.IN_SAMPLE_INT)//设置图片以如何的编码方式显示
                 .bitmapConfig( Bitmap.Config.RGB_565)//设置图片的解码类型//
                 .decodingOptions(new BitmapFactory.Options())//设置图片的解码配置

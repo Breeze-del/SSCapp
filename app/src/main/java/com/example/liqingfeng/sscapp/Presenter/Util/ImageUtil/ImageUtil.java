@@ -1,14 +1,21 @@
 package com.example.liqingfeng.sscapp.Presenter.Util.ImageUtil;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.liqingfeng.sscapp.Model.UrlConfig;
 import com.example.liqingfeng.sscapp.Model.UserConstant;
+
+import org.xml.sax.Parser;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -174,5 +181,39 @@ public class ImageUtil {
                 }
             }
         });
+    }
+
+    public static void saveImageToGallery(Activity context, Bitmap bmp) {
+        String local_path = imageBasePath ;
+        // 创建文件夹
+//        File appDir = new File(Environment.getExternalStorageDirectory(), "imageok");
+        File appDir = new File(local_path, "imageok");
+        //判断不存在就创建
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        //以时间命名
+        String fileName = System.currentTimeMillis() + ".png";
+        File file = new File(appDir, fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // 其次把文件插入到系统图库
+        try {
+            MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                    file.getAbsolutePath(), fileName, null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        // 最后通知图库更新
+        String path = Environment.getExternalStorageDirectory().getPath();
+        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path)));
     }
 }

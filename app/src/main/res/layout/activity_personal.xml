@@ -43,32 +43,24 @@
                     android:layout_marginBottom="20dp"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/user_line"
-                        android:layout_width="1dp"
-                        android:layout_height="25dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/white" />
+                    <!--<ImageView-->
+                        <!--android:id="@+id/user_line"-->
+                        <!--android:layout_width="1dp"-->
+                        <!--android:layout_height="25dp"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:background="@color/white" />-->
 
                     <TextView
+                        android:layout_centerInParent="true"
                         android:id="@+id/info_nickname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@id/user_line"
                         android:text="张三"
                         android:textColor="@color/white"
                         android:textSize="17sp" />
 
-                    <TextView
-                        android:id="@+id/user_val"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_toRightOf="@id/user_line"
-                        android:text="182****5882"
-                        android:textColor="@color/white"
-                        android:textSize="17sp" />
+
                 </RelativeLayout>
             </RelativeLayout>
 

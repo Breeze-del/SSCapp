@@ -1,21 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
         <LinearLayout
+            android:id="@+id/mysign_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/mysign_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:drawableLeft="@mipmap/ic_back_black"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:clickable="true"
+                android:onClick="backFrommysin"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:gravity="center_vertical"
+                android:padding="10dip">
+
+                <TextView
+                    android:layout_marginLeft="210dp"
+                    android:id="@+id/qiandao"
+                    android:onClick="signDD"
+                    android:clickable="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/signD"
+                    android:textSize="20sp" />
+
+                <ImageView
+                android:id="@+id/user_line"
+                android:layout_width="1dp"
+                android:layout_height="25dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="15dp"
+                android:background="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:onClick="Fenxiang"
+                    android:text="分享"
+                    android:textSize="20sp" />
+            </LinearLayout>
 
         </LinearLayout>
 
-        <View
-            android:layout_height="0.5dip"
-            android:background="#686868"
-            android:layout_width="match_parent"/>
+        <LinearLayout
+            android:id="@+id/qiandaojil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mysign_header"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="签到记录： "
+                android:textSize="25sp"/>
+            <TextView
+                android:id="@+id/signLog"
+                android:padding="4sp"
+                android:layout_marginLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"/>
+        </LinearLayout>
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/xiantiao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/qiandaojil"
+            tools:ignore="DuplicateIds">
+            <View
+                android:layout_marginTop="15dp"
+                android:layout_height="1px"
+                android:layout_width="match_parent"
+                android:background="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/xiantiao"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="运动记录 ： "
+                android:textSize="25sp"/>
+            <TextView
+                android:id="@+id/sportLog"
+                android:padding="4sp"
+                android:layout_marginLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"/>
+        </LinearLayout>
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

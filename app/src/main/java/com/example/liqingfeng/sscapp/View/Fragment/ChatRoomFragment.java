@@ -17,10 +17,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.liqingfeng.sscapp.Model.Entity.Param;
 import com.example.liqingfeng.sscapp.Model.Entity.PersonsChat;
+import com.example.liqingfeng.sscapp.Model.Entity.ResponseModel;
 import com.example.liqingfeng.sscapp.Model.UrlConfig;
 import com.example.liqingfeng.sscapp.Model.UserConstant;
 import com.example.liqingfeng.sscapp.Presenter.Adapter.ChatroomAdapter;
+import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
+import com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil.RequestManager;
 import com.example.liqingfeng.sscapp.R;
 
 import org.java_websocket.client.WebSocketClient;
@@ -195,11 +199,31 @@ public class ChatRoomFragment extends Fragment {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                enterRoom();
                 onDestroy();
                 FragmentManager fm=getActivity().getFragmentManager();
                 Fragment fragment=new RoomListFragment();
                 fm.beginTransaction().replace( R.id.main_content,fragment ).commit();
             }
         });
+    }
+
+    private void enterRoom() {
+        UserConstant.roomID=-1+"";
+        RequestManager requestManager =RequestManager.getInstance(getActivity());
+        requestManager.requestPutWithParam(UrlConfig.enterRoomUrl, new Param().append("id", "-1").end(),
+                true, new RequestManager.ReqCallBack<ResponseModel>() {
+                    @Override
+                    public void onReqSuccess(ResponseModel result) {
+                        if(CheckStatuss.CheckStatus(result, getActivity()) != 1) {
+                            Toast.makeText(getActivity(),"加入失败",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onReqFailed(String errorMsg) {
+                        Toast.makeText(getActivity(),"加入失败",Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

@@ -227,6 +227,8 @@ public class PersonalActivity extends Activity {
                     show();
                 }
                 break;
+            case 0x1234:
+                break;
         }
     }
 
@@ -270,7 +272,7 @@ public class PersonalActivity extends Activity {
      */
     public void sportTrip(View view) {
         Intent intent = new Intent(this, ChangePasswordActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
         overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
     }
 }

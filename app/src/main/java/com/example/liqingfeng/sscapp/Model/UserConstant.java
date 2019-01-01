@@ -51,5 +51,5 @@ public class UserConstant {
     /**
      *  加入房间号
      */
-    public static String  roomID="";
+    public static String  roomID="-1";
 }

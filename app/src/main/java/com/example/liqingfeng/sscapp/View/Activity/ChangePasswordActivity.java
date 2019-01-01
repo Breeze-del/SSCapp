@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.example.liqingfeng.sscapp.Model.Entity.Param;
 import com.example.liqingfeng.sscapp.Model.Entity.ResponseModel;
 import com.example.liqingfeng.sscapp.Model.UrlConfig;
-import com.example.liqingfeng.sscapp.Model.UserConstant;
 import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
 import com.example.liqingfeng.sscapp.Presenter.Util.FileUtil.FileManager;
 import com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil.RequestManager;
@@ -30,7 +29,12 @@ public class ChangePasswordActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_changepasw);
         initView();
-        getInfo();
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getInfo();
+            }
+        });
     }
 
     private void getInfo() {
@@ -65,13 +69,15 @@ public class ChangePasswordActivity extends Activity {
                     public void onReqSuccess(ResponseModel result) {
                         if (CheckStatuss.CheckStatus(result, getApplicationContext()) == 1) {
                             //不干什么
-                            Toast.makeText(getApplicationContext(),"请重新登陆",Toast.LENGTH_SHORT).show();
-                            FileManager fileManager = new FileManager(getApplicationContext(), UrlConfig.userInformation);
-                            fileManager.writeFileData("");
-                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                            startActivity(intent);
-                            finish();
-                            overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
+                            if(result.getData().equals("true")) {
+                                Toast.makeText(getApplicationContext(),"请重新登陆",Toast.LENGTH_SHORT).show();
+                                FileManager fileManager = new FileManager(getApplicationContext(), UrlConfig.userInformation);
+                                fileManager.writeFileData("");
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                                overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
+                            }
                         } else {
                             Toast.makeText(getApplicationContext(),"后台错误",Toast.LENGTH_SHORT).show();
                         }
@@ -83,14 +89,17 @@ public class ChangePasswordActivity extends Activity {
                     }
                 });
     }
-    private void changePassword(View view) {
-        getInfo();
-    }
 
     private void initView() {
         mOldPa = (EditText) findViewById(R.id.password_old);
         mNewPa1 = (EditText) findViewById(R.id.password_new1);
         mNewPa2 = (EditText) findViewById(R.id.password_new2);
         ok = (Button) findViewById(R.id.password_ok);
+    }
+
+    public void backForNoChange(View view) {
+        Intent intent = new Intent(this, PersonalActivity.class);
+        setResult(0x124,intent);
+        overridePendingTransition(R.anim.anim_out,R.anim.anim_in);
     }
 }
