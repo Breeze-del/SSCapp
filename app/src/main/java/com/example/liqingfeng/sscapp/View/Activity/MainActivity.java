@@ -41,6 +41,7 @@ import com.example.liqingfeng.sscapp.View.Fragment.SpModelFragment;
 
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * App核心主界面
@@ -318,7 +319,12 @@ public class MainActivity extends AppCompatActivity
                 //获得dialog 中 edittext的值
                 ItemGroup etListLibraryNote = (ItemGroup) layout.findViewById(R.id.selectRoomId);
                 String libraryNote = etListLibraryNote.getText().toString();
-                requestRoomById(libraryNote);
+                String trim=Pattern.compile("[0-9]*").matcher(libraryNote).replaceAll("").trim();
+                if(!trim.equals("")){
+                    Toast.makeText(getApplicationContext(),"只能输入数字",Toast.LENGTH_SHORT).show();
+                } else {
+                    requestRoomById(libraryNote);
+                }
             }
         });
 

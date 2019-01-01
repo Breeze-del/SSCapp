@@ -29,6 +29,7 @@ import com.nostra13.universalimageloader.utils.L;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.regex.Pattern;
 
 public class CreateRoomFragment extends Fragment implements ItemGroup.ItemOnClickListener  {
 
@@ -46,6 +47,7 @@ public class CreateRoomFragment extends Fragment implements ItemGroup.ItemOnClic
     private String mMinute;
     private String time;
     private boolean isStart;
+    private boolean isBack = true;
 
     private DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
 
@@ -119,9 +121,11 @@ public class CreateRoomFragment extends Fragment implements ItemGroup.ItemOnClic
                 try {
                     getInfo();
                     // 返回运动模块界面
-                    FragmentManager fm=getActivity().getFragmentManager();
-                    Fragment fragment=new SpModelFragment();
-                    fm.beginTransaction().replace( R.id.main_content,fragment ).commit();
+                    if(isBack) {
+                        FragmentManager fm=getActivity().getFragmentManager();
+                        Fragment fragment=new SpModelFragment();
+                        fm.beginTransaction().replace( R.id.main_content,fragment ).commit();
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -154,6 +158,20 @@ public class CreateRoomFragment extends Fragment implements ItemGroup.ItemOnClic
     private void getInfo() throws ParseException {
         String location = mlocation.getText();
         String maxNum = mmaxNum.getText();
+        String trim=Pattern.compile("[0-9]*").matcher(maxNum).replaceAll("").trim();
+        if(!trim.equals("")){
+            Toast.makeText(getActivity(),"人数只能为数字",Toast.LENGTH_SHORT).show();
+            isBack=false;
+            return;
+
+        } else {
+            isBack = true;
+        }
+        if(location.equals("")||maxNum.equals("")||mstartTime.getText().equals("")||mendTime.getText().equals("")) {
+            Toast.makeText(getActivity(),"输入框不能为空",Toast.LENGTH_SHORT).show();
+            isBack = false;
+            return;
+        }
         long start = aTod(mstartTime.getText());
         long end = aTod(mendTime.getText());
         RequestManager requestManager = RequestManager.getInstance(getActivity());

@@ -1,6 +1,5 @@
 package com.example.liqingfeng.sscapp.Model;
 
-import com.example.liqingfeng.sscapp.Presenter.Util.ViewUtil.ScreenUtils;
 
 /**
  * 记录所有的接口的地址

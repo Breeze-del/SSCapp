@@ -19,6 +19,8 @@ import com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil.RequestManager;
 import com.example.liqingfeng.sscapp.R;
 import com.example.liqingfeng.sscapp.View.CustomView.SexBox;
 
+import java.util.regex.Pattern;
+
 public class ChangeInfoActivity extends Activity {
 
     private TextView mNickname;
@@ -82,9 +84,16 @@ public class ChangeInfoActivity extends Activity {
     /**
      * 获取控件的输入
      */
-    private void getInfo() {
+    private boolean getInfo() {
         userInfo.setUsNickname(mNickname.getText().toString());
-        userInfo.setUsAge(mUserAge.getText().toString());
+        String age = mUserAge.getText().toString();
+        String trim=Pattern.compile("[0-9]*").matcher(age).replaceAll("").trim();
+        if(!trim.equals("")) {
+            Toast.makeText(this,"年龄只能为数字",Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            userInfo.setUsAge(mUserAge.getText().toString());
+        }
         // 获得性别
         userInfo.setUsSex(getSexFromBox());
         userInfo.setUsClass(mClass.getText().toString());
@@ -93,6 +102,7 @@ public class ChangeInfoActivity extends Activity {
 
         UserConstant.userNickName = userInfo.getUsNickname();
         UserConstant.user_Sign = userInfo.getUsSign();
+        return true;
     }
 
     /**
@@ -113,7 +123,9 @@ public class ChangeInfoActivity extends Activity {
      */
     public void okChange(View view) {
         // 获取修改信息
-        getInfo();
+        if(!getInfo()) {
+            return;
+        }
         // 信息发给后台
         senToWZY();
         // 信息传给上一个界面

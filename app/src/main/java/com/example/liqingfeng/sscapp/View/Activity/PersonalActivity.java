@@ -23,11 +23,8 @@ import com.example.liqingfeng.sscapp.Model.Entity.Users;
 import com.example.liqingfeng.sscapp.Model.UrlConfig;
 import com.example.liqingfeng.sscapp.Model.UserConstant;
 import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
-import com.example.liqingfeng.sscapp.Presenter.ImageManage.Varify;
 import com.example.liqingfeng.sscapp.Presenter.Util.ConvertUtil.DataConvertUtil;
-import com.example.liqingfeng.sscapp.Presenter.Util.FileUtil.FileManager;
 import com.example.liqingfeng.sscapp.Presenter.Util.ImageUtil.FastBlurUtils;
-import com.example.liqingfeng.sscapp.Presenter.Util.ImageUtil.ImageLoaderUtil;
 import com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil.RequestManager;
 import com.example.liqingfeng.sscapp.R;
 
