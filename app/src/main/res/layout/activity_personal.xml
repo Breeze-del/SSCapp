@@ -64,14 +64,12 @@
                 </RelativeLayout>
             </RelativeLayout>
 
-            <TextView
+            <ImageButton
                 android:id="@+id/personal_back_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:drawableLeft="@mipmap/ic_back_black"
-                android:onClick="backMainActivity"
-                android:textColor="@color/black" />
+                android:background="@mipmap/ic_back_black"
+                android:onClick="backMainActivity" />
         </FrameLayout>
 
         <LinearLayout
@@ -93,7 +91,7 @@
                     android:layout_alignParentLeft="true"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="用户名 ："
+                    android:text="用户昵称 ："
                     android:textColor="@color/black" />
 
                 <TextView
@@ -246,7 +244,7 @@
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/main_btn_myTrip"
-                android:layout_width="130dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_select"
                 android:textSize="20dp"
@@ -257,7 +255,7 @@
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/main_btn_changeInfo"
-                android:layout_width="130dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:text="@string/changeInfo"

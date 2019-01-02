@@ -13,9 +13,8 @@
             android:id="@+id/create_sportName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:edt_hint_content=""
+            app:edt_hint_content="请输入运动名称"
             app:jt_visible="false"
-            app:isEditable="false"
             app:paddingLeft="15dp"
             app:title="运动名">
         </com.example.liqingfeng.sscapp.View.CustomView.ItemGroup>

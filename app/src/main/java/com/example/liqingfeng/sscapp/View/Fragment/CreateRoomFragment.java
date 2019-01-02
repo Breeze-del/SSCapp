@@ -22,13 +22,14 @@ import com.example.liqingfeng.sscapp.Model.Entity.ResponseModel;
 import com.example.liqingfeng.sscapp.Model.UrlConfig;
 import com.example.liqingfeng.sscapp.Model.UserConstant;
 import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
+import com.example.liqingfeng.sscapp.Presenter.Util.ConvertUtil.DataConvertUtil;
 import com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil.RequestManager;
 import com.example.liqingfeng.sscapp.R;
 import com.example.liqingfeng.sscapp.View.CustomView.ItemGroup;
-import com.nostra13.universalimageloader.utils.L;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 public class CreateRoomFragment extends Fragment implements ItemGroup.ItemOnClickListener  {
@@ -122,6 +123,7 @@ public class CreateRoomFragment extends Fragment implements ItemGroup.ItemOnClic
                     getInfo();
                     // 返回运动模块界面
                     if(isBack) {
+                        Toast.makeText(getActivity(),"房间创建成功！",Toast.LENGTH_SHORT).show();
                         FragmentManager fm=getActivity().getFragmentManager();
                         Fragment fragment=new SpModelFragment();
                         fm.beginTransaction().replace( R.id.main_content,fragment ).commit();
@@ -158,39 +160,59 @@ public class CreateRoomFragment extends Fragment implements ItemGroup.ItemOnClic
     private void getInfo() throws ParseException {
         String location = mlocation.getText();
         String maxNum = mmaxNum.getText();
-        String trim=Pattern.compile("[0-9]*").matcher(maxNum).replaceAll("").trim();
-        if(!trim.equals("")){
-            Toast.makeText(getActivity(),"人数只能为数字",Toast.LENGTH_SHORT).show();
-            isBack=false;
-            return;
-
-        } else {
-            isBack = true;
-        }
         if(location.equals("")||maxNum.equals("")||mstartTime.getText().equals("")||mendTime.getText().equals("")) {
             Toast.makeText(getActivity(),"输入框不能为空",Toast.LENGTH_SHORT).show();
             isBack = false;
             return;
         }
-        long start = aTod(mstartTime.getText());
-        long end = aTod(mendTime.getText());
-        RequestManager requestManager = RequestManager.getInstance(getActivity());
-        requestManager.requestAsyn(UrlConfig.createRoomUrl, RequestManager.TYPE_POST_JSON,
-                new Param().append("roSportname", UserConstant.room_Sport_name).append("roStart", start+"")
-                        .append("roEnd", end+"").append("roLocation", location).append("roOrinum", maxNum).end(), true,
-                new RequestManager.ReqCallBack<ResponseModel>() {
-                    @Override
-                    public void onReqSuccess(ResponseModel result) {
-                        if(CheckStatuss.CheckStatus(result, getActivity()) != 1) {
+        else {
+            String trim=Pattern.compile("[0-9]*").matcher(maxNum).replaceAll("").trim();
+            if(!trim.equals("")){
+                Toast.makeText(getActivity(),"人数只能为数字",Toast.LENGTH_SHORT).show();
+                isBack=false;
+                return;
+
+            } else {
+                int num = DataConvertUtil.toInt(maxNum);
+                if(num>20|| num <2) {
+                    Toast.makeText(getActivity(),"人数只能为2-20",Toast.LENGTH_SHORT).show();
+                    isBack = false;
+                    return;
+                }
+            }
+            long start = aTod(mstartTime.getText());
+            long end = aTod(mendTime.getText());
+            Calendar ca = Calendar.getInstance();
+            long now =ca.getTime().getTime();
+            if(start >= end) {
+                Toast.makeText(getActivity(),"开始时间早于结束时间",Toast.LENGTH_SHORT).show();
+                isBack = false;
+                return;
+            }
+            if(start <= now ) {
+                Toast.makeText(getActivity(),"结束时间/开始时间 晚于当前时间",Toast.LENGTH_SHORT).show();
+                isBack = false;
+                return;
+            }
+            isBack = true;
+            RequestManager requestManager = RequestManager.getInstance(getActivity());
+            requestManager.requestAsyn(UrlConfig.createRoomUrl, RequestManager.TYPE_POST_JSON,
+                    new Param().append("roSportname", UserConstant.room_Sport_name).append("roStart", start+"")
+                            .append("roEnd", end+"").append("roLocation", location).append("roOrinum", maxNum).end(), true,
+                    new RequestManager.ReqCallBack<ResponseModel>() {
+                        @Override
+                        public void onReqSuccess(ResponseModel result) {
+                            if(CheckStatuss.CheckStatus(result, getActivity()) != 1) {
+
+                            }
+                        }
+
+                        @Override
+                        public void onReqFailed(String errorMsg) {
 
                         }
-                    }
-
-                    @Override
-                    public void onReqFailed(String errorMsg) {
-
-                    }
-                });
+                    });
+        }
     }
 
     private void setTime() {
@@ -201,10 +223,15 @@ public class CreateRoomFragment extends Fragment implements ItemGroup.ItemOnClic
         }
     }
 
-    private long aTod(String time) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-        long t;
-        t=sdf.parse(time).getTime();
-        return t;
+    private long aTod(String time)  {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+            long t;
+            t=sdf.parse(time).getTime();
+            return t;
+        } catch (ParseException e){
+            Toast.makeText(getActivity(),"创建房间失败",Toast.LENGTH_SHORT).show();
+            return new Date().getTime();
+        }
     }
 }

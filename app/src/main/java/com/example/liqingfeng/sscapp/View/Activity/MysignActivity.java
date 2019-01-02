@@ -108,6 +108,7 @@ public class MysignActivity extends Activity {
     public void backFrommysin(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     /**

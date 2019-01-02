@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.liqingfeng.sscapp.Model.Entity.Param;
@@ -24,6 +25,7 @@ public class ChangePasswordActivity extends Activity {
     private EditText mNewPa1;
     private EditText mNewPa2;
     private Button ok;
+    private TextView back;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +71,8 @@ public class ChangePasswordActivity extends Activity {
                     public void onReqSuccess(ResponseModel result) {
                         if (CheckStatuss.CheckStatus(result, getApplicationContext()) == 1) {
                             //不干什么
-                            if(result.getData().equals("true")) {
+                            System.out.println(result.getData());;
+                            if((boolean)result.getData()) {
                                 Toast.makeText(getApplicationContext(),"修改密码成功,请重新登陆",Toast.LENGTH_SHORT).show();
                                 FileManager fileManager = new FileManager(getApplicationContext(), UrlConfig.userInformation);
                                 fileManager.writeFileData("");
@@ -78,8 +81,11 @@ public class ChangePasswordActivity extends Activity {
                                 finish();
                                 overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
                             }
+                            else {
+                                Toast.makeText(getApplicationContext(),"修改密码失败",Toast.LENGTH_SHORT).show();
+                            }
                         } else {
-                            Toast.makeText(getApplicationContext(),"修改密码失败",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"后台出错",Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -95,11 +101,20 @@ public class ChangePasswordActivity extends Activity {
         mNewPa1 = (EditText) findViewById(R.id.password_new1);
         mNewPa2 = (EditText) findViewById(R.id.password_new2);
         ok = (Button) findViewById(R.id.password_ok);
+        back = (TextView) findViewById(R.id.change_back1);
+        // 点击事件
+        backForNoChange();
     }
 
-    public void backForNoChange(View view) {
-        Intent intent = new Intent(this, PersonalActivity.class);
-        setResult(0x124,intent);
-        overridePendingTransition(R.anim.anim_out,R.anim.anim_in);
+    public void backForNoChange() {
+       back.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               Intent intent = new Intent(ChangePasswordActivity.this, PersonalActivity.class);
+               setResult(0x124,intent);
+               overridePendingTransition(R.anim.anim_out,R.anim.anim_in);
+               finish();
+           }
+       });
     }
 }

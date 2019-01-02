@@ -131,13 +131,15 @@ public class RoomListFragment extends Fragment {
      */
     private void enterRoom(String id) {
         RequestManager requestManager =RequestManager.getInstance(getActivity());
-        requestManager.requestPutWithParam(UrlConfig.enterRoomUrl, new Param().append("id", id).end(),
+        requestManager.requestPutWithParam(UrlConfig.enterRoomUrl, new Param().append("usRoomid", id).end(),
                 true, new RequestManager.ReqCallBack<ResponseModel>() {
                     @Override
                     public void onReqSuccess(ResponseModel result) {
-                        if(CheckStatuss.CheckStatus(result, getActivity()) != 1) {
-                            Toast.makeText(getActivity(),"加入失败",Toast.LENGTH_SHORT).show();
-                        }
+//                        if(CheckStatuss.CheckStatus(result, getActivity()) != 1) {
+//                            Toast.makeText(getActivity().getApplicationContext(),"加入失败",Toast.LENGTH_SHORT).show();
+//                        }else {
+//                            Toast.makeText(getActivity().getApplicationContext(),"加入房间成功",Toast.LENGTH_SHORT).show();
+//                        }
                     }
 
                     @Override

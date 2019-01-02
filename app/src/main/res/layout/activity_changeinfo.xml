@@ -6,16 +6,14 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:fitsSystemWindows="true">
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/change_header"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="24dp">
+            android:layout_height="wrap_content">
 
             <TextView
+                android:layout_alignParentLeft="true"
                 android:id="@+id/change_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -26,6 +24,7 @@
                 android:textSize="20dp" />
 
             <TextView
+                android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -33,7 +32,7 @@
                 android:gravity="center"
                 android:text="@string/changeInfo"
                 android:textSize="25sp" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

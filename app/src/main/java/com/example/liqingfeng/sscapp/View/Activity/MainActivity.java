@@ -167,20 +167,20 @@ public class MainActivity extends AppCompatActivity
      * @param item  点击的是哪一个setting
      * @return
      */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected( item );
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected( item );
+//    }
 
     /**
      * 导航栏的点击事件
@@ -200,6 +200,8 @@ public class MainActivity extends AppCompatActivity
             // 签到
             Intent intent = new Intent(this, MysignActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
+            finish();
         } else if (id == R.id.nav_searchRoom) {
             // 搜索房间
             selectRoom();
@@ -207,7 +209,11 @@ public class MainActivity extends AppCompatActivity
             // 提交反馈
             sendFeedback();
         } else if (id == R.id.nav_aboutus) {
-
+            // 关于我们
+            Intent intent = new Intent(this, AboutUsActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
+            finish();
         } else if (id == R.id.nav_myRoom) {
             // 我的房间
             requestRoomById(UserConstant.roomID);
@@ -259,6 +265,7 @@ public class MainActivity extends AppCompatActivity
                         } else {
                             Intent intent = new Intent( getApplicationContext(), LoginActivity.class );
                             startActivity( intent );
+                            finish();
                         }
                     }
                     @Override
@@ -304,7 +311,7 @@ public class MainActivity extends AppCompatActivity
         fileManager.writeFileData("");
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
-        this.finish();
+        finish();
     }
 
     private void selectRoom() {
@@ -318,12 +325,17 @@ public class MainActivity extends AppCompatActivity
             public void onClick(DialogInterface dialog, int which) {
                 //获得dialog 中 edittext的值
                 ItemGroup etListLibraryNote = (ItemGroup) layout.findViewById(R.id.selectRoomId);
-                String libraryNote = etListLibraryNote.getText().toString();
-                String trim=Pattern.compile("[0-9]*").matcher(libraryNote).replaceAll("").trim();
-                if(!trim.equals("")){
-                    Toast.makeText(getApplicationContext(),"只能输入数字",Toast.LENGTH_SHORT).show();
+                String libraryNote = etListLibraryNote.getText();
+                if(libraryNote.equals("")) {
+                    Toast.makeText(getApplicationContext(),"搜索房间号不能为空",Toast.LENGTH_SHORT).show();
+                    return;
                 } else {
-                    requestRoomById(libraryNote);
+                    String trim=Pattern.compile("[0-9]*").matcher(libraryNote).replaceAll("").trim();
+                    if(!trim.equals("")){
+                        Toast.makeText(getApplicationContext(),"只能输入数字",Toast.LENGTH_SHORT).show();
+                    } else {
+                        requestRoomById(libraryNote);
+                    }
                 }
             }
         });

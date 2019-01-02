@@ -1,6 +1,10 @@
 package com.example.liqingfeng.sscapp.Presenter.Adapter;
 
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,23 +20,28 @@ import com.example.liqingfeng.sscapp.Model.UserConstant;
 import com.example.liqingfeng.sscapp.Presenter.Util.ImageUtil.ImageLoaderUtil;
 import com.example.liqingfeng.sscapp.View.CustomView.CircleImageView;
 import com.example.liqingfeng.sscapp.R;
+import com.example.liqingfeng.sscapp.View.Fragment.ChatRoomFragment;
+import com.example.liqingfeng.sscapp.View.Fragment.FriendInfoFragment;
+
 import java.util.List;
 
 public class NewChatroomAdapter extends RecyclerView.Adapter<NewChatroomAdapter.ViewHolder> {
 
     private List<PersonsChat> msgList;
     private ImageLoaderUtil imageLoaderUtil;
+    private Activity activity;
 
     /*
    传入外部list的构造方法
     */
-    public NewChatroomAdapter(List<PersonsChat> msgList){
+    public NewChatroomAdapter(List<PersonsChat> msgList, Activity mac){
         this.msgList = msgList;
+        this.activity= mac;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.newchatroom_fragment_item,parent,false);
         imageLoaderUtil = ImageLoaderUtil.getInstance(parent.getContext());
         final ViewHolder holder = new ViewHolder(view);
@@ -42,7 +51,11 @@ public class NewChatroomAdapter extends RecyclerView.Adapter<NewChatroomAdapter.
                 int position = holder.getAdapterPosition();//得到当前点击的位置
                 PersonsChat msg = msgList.get(position);//从点击位置里得到List中的单例
                 //从单例中得到时间
-                Toast.makeText(v.getContext(), "消息时间："+msg.getTime(), Toast.LENGTH_SHORT).show();
+                if(!msg.getMeSend()) {
+                    UserConstant.friendID = msg.getId();
+                    Intent intent = new Intent(parent.getContext(), FriendInfoFragment.class);
+                    parent.getContext().startActivity(intent);
+                }
             }
         });
         return holder;
@@ -57,14 +70,14 @@ public class NewChatroomAdapter extends RecyclerView.Adapter<NewChatroomAdapter.
             holder.left_layout.setVisibility(View.GONE);
             holder.right_layout.setVisibility(View.VISIBLE);
             holder.right_msg.setText(msg.getChatMessage());
-            imageLoaderUtil.displayImage(holder.right_image, UrlConfig.imageBaseUrl + msg.getImgUrl());
+            imageLoaderUtil.displayImage(holder.right_image, UrlConfig.imageBaseUrl + UserConstant.user_head_picture);
         } else {
             holder.right_layout.setVisibility(View.GONE);
             holder.left_layout.setVisibility(View.VISIBLE);
             holder.left_msg.setText(msg.getChatMessage());
             holder.left_name.setText(msg.getName());
             holder.left_date.setText(msg.getTime());
-            imageLoaderUtil.displayImage(holder.left_image, UrlConfig.imageBaseUrl + UserConstant.user_head_picture);
+            imageLoaderUtil.displayImage(holder.left_image, UrlConfig.imageBaseUrl + msg.getImgUrl());
         }
     }
 

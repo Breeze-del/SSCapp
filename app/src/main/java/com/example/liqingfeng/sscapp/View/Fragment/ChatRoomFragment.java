@@ -4,6 +4,7 @@ package com.example.liqingfeng.sscapp.View.Fragment;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -28,6 +29,7 @@ import com.example.liqingfeng.sscapp.Presenter.Adapter.NewChatroomAdapter;
 import com.example.liqingfeng.sscapp.Presenter.CheckStatuss;
 import com.example.liqingfeng.sscapp.Presenter.Util.OkhttpUtil.RequestManager;
 import com.example.liqingfeng.sscapp.R;
+import com.example.liqingfeng.sscapp.View.Activity.LoginActivity;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_6455;
@@ -102,7 +104,7 @@ public class ChatRoomFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
-        msgAdapter = new NewChatroomAdapter(personsChats);
+        msgAdapter = new NewChatroomAdapter(personsChats, getActivity());
         recyclerView.setAdapter(msgAdapter);
 
     }
@@ -122,6 +124,12 @@ public class ChatRoomFragment extends Fragment {
 
                 @Override
                 public void onMessage(String message) {
+                    if(message.equals("USER_LOCK")) {
+                        Toast.makeText(getActivity(),"你的账号已被锁定",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        startActivity(intent);
+                        onDestroy();
+                    }
                     Log.d( "picher_log", "收到消息"+message );
                     if (message.contains("!@#msg!@#history")) {
                         String[] strs = message.split("!@#msg!@#history");
@@ -204,10 +212,10 @@ public class ChatRoomFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 enterRoom();
-                onDestroy();
                 FragmentManager fm=getActivity().getFragmentManager();
                 Fragment fragment=new RoomListFragment();
                 fm.beginTransaction().replace( R.id.main_content,fragment ).commit();
+                onDestroy();
             }
         });
     }

@@ -201,7 +201,7 @@ public class RequestManager {
                 public void onResponse(Call call, Response response) throws IOException {
                     if (response.isSuccessful()) {
                         String string = response.body().string();
-                        Log.e(TAG, "response ----->" + string);
+                        //Log.e(TAG, "response ----->" + string);
                         //解析数据
                         ResponseModel object = gson.fromJson(string,ResponseModel.class);
                         successCallBack((T) object, callBack);
@@ -243,7 +243,7 @@ public class RequestManager {
                 public void onResponse(Call call, Response response) throws IOException {
                     if (response.isSuccessful()) {
                         String string = response.body().string();
-                        Log.e(TAG, "response ----->" + string);
+                        //Log.e(TAG, "response ----->" + string);
                         ResponseModel object = gson.fromJson(string,ResponseModel.class);
                         successCallBack((T) object, callBack);
                     } else {
@@ -287,7 +287,7 @@ public class RequestManager {
                 public void onResponse(Call call, Response response) throws IOException {
                     if (response.isSuccessful()) {
                         String string = response.body().string();
-                        Log.e(TAG, "response ----->" + string);
+                        //Log.e(TAG, "response ----->" + string);
                         successCallBack((T) string, callBack);
                     } else {
                         failedCallBack("服务器错误", callBack);
@@ -296,7 +296,7 @@ public class RequestManager {
             });
             return call;
         } catch (Exception e) {
-            Log.e(TAG, e.toString());
+            //Log.e(TAG, e.toString());
         }
         return null;
     }
@@ -316,14 +316,14 @@ public class RequestManager {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     failedCallBack("访问失败", callBack);
-                    Log.e(TAG, e.toString());
+                    //Log.e(TAG, e.toString());
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     if (response.isSuccessful()) {
                         String string = response.body().string();
-                        Log.e(TAG, "response ----->" + string);
+                        //Log.e(TAG, "response ----->" + string);
                         ResponseModel object = gson.fromJson(string,ResponseModel.class);
                         successCallBack((T) object, callBack);
                     } else {
@@ -333,7 +333,7 @@ public class RequestManager {
             } );
             return call;
         }catch (Exception e) {
-            Log.e( TAG,e.toString() );
+            //Log.e( TAG,e.toString() );
         }
         return null;
     }
@@ -358,14 +358,14 @@ public class RequestManager {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     failedCallBack("访问失败", callBack);
-                    Log.e(TAG, e.toString());
+                    //Log.e(TAG, e.toString());
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     if (response.isSuccessful()) {
                         String string = response.body().string();
-                        Log.e(TAG, "response ----->" + string);
+                        //Log.e(TAG, "response ----->" + string);
                         ResponseModel object = gson.fromJson(string,ResponseModel.class);
                         successCallBack((T) object, callBack);
                     } else {
@@ -374,7 +374,7 @@ public class RequestManager {
                 }
             });
         } catch (Exception e) {
-            Log.e(TAG, e.toString());
+            //Log.e(TAG, e.toString());
         }
         return null;
     }

@@ -52,4 +52,8 @@ public class UserConstant {
      *  加入房间号
      */
     public static String  roomID="-1";
+    /**
+     * 他人的ID, 查看别人的信息
+     */
+    public static String friendID="";
 }
