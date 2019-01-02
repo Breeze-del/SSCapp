@@ -29,7 +29,7 @@ public class AboutUsActivity extends AppCompatActivity {
         initViews();
         View aboutPage = new AboutPage(this)
                 .isRTL(false)
-                .setImage(R.drawable.logo)//图片
+                .setImage(R.drawable.team)//图片
                 .setDescription("道理我都懂，可我就是不听啊")//介绍
                 .addItem(new Element().setTitle("Version 1.0"))
                 .addGroup("与我联系")
